@@ -1,10 +1,12 @@
 import tkinter as tk
+from tkinter import messagebox
 from tkinter import PhotoImage
 from CS2Copy import CS2
 
 
 window = tk.Tk()
 result_variable = tk.StringVar()
+logged_user = ""
 
 Ancient = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Ancient.png").subsample(2,2)
 Anubis = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Anubis.png").subsample(2,2)
@@ -19,6 +21,45 @@ Vertigo = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Vertigo.png")
 Baggage = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Baggage.png").subsample(9,9)
 Shoots = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Shoots.png").subsample(9,9)
 
+
+def login():
+    window.title("CS2 GUI")
+    window.geometry("620x600") # Add this line to set the window size
+
+    for widget in window.winfo_children():
+        widget.destroy()
+
+    login_frame = tk.Frame(window)
+    login_frame.pack(pady=50)
+
+    label_username = tk.Label(login_frame, text="Username:")
+    label_username.pack()
+
+    entry_username = tk.Entry(login_frame)
+    entry_username.pack()
+
+    label_password = tk.Label(login_frame, text="Password:")
+    label_password.pack()
+
+    entry_password = tk.Entry(login_frame, show="*")
+    entry_password.pack()
+
+    login_button = tk.Button(login_frame, text="Login", command=lambda: login_check(entry_username.get(), entry_password.get()))
+    login_button.pack(pady=10)
+
+def login_check(username, password):
+    users = {
+    'user1': 'password1',
+    'user2': 'password2',
+    'user3': 'password3'
+    }
+
+    if username in users and users[username] == password:
+        messagebox.showinfo("Login Successful", f"Welcome, {username}!")
+        logged_user = f"{username}"
+        main()
+    else:
+        messagebox.showerror("Login Failed", "Invalid username or password")
 
 
 def main():
@@ -368,9 +409,7 @@ def workshop_map():
 
     WS_climb_button = tk.Button(window, text="Hostage Climb", command=lambda: CS2.workshop("climb"))
     WS_climb_button.grid(row=20, column=4)
-    
 
-    
 def respawn_on_death():
     for widget in window.winfo_children():
         widget.destroy()
@@ -440,7 +479,6 @@ def custom_execute(mode_var, map_var, AI_var, wait_label):
 
     #do button stuff here eg. if btn pressed get values
 
-
 def kick_player():
     for widget in window.winfo_children():
         widget.destroy()
@@ -455,8 +493,6 @@ def startup():
     for widget in window.winfo_children():
         widget.destroy()
 
-    
-
     Confirm_label = tk.Label(window, text="Start or Update?")
     Confirm_label.grid(row=1, column=1, pady=10)
 
@@ -466,7 +502,7 @@ def startup():
     Update_Startup_button = tk.Button(window, text="Update and Start", command=lambda: CS2.update_start_server())
     Update_Startup_button.grid(row=2, column=1, padx=5)
 
-    ShutdownNO_button = tk.Button(window, text="No", command=main)
+    ShutdownNO_button = tk.Button(window, text="Back", command=main)
     ShutdownNO_button.grid(row=2, column=2, padx=5, sticky="w")
 
     update_IP_button = tk.Button(window, text="Update IP", command=lambda: update_and_display_ip())
@@ -497,7 +533,6 @@ def shutdown():
     
     pass
 
-
 def update_and_display_ip():
     # Call the function and update the Tkinter variable
     result_variable.set(CS2.update_IP())
@@ -506,4 +541,4 @@ def update_and_display_ip():
     
 
 if __name__ == "__main__":
-    main()
+    login()

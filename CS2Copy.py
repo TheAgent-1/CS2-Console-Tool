@@ -1,10 +1,38 @@
+import platform
 import os
 import pygetwindow as gw
 import pyautogui
 import time
 import subprocess
+import mainCopy
+from flask import Flask, request, jsonify
+import requests
+
+app = Flask(__name__)
+host = '192.168.1.38'
+port = '63251'
 
 class CS2:
+    def start_flask():
+        app.run(host, port)
+
+    @app.route('/submit', methods=['POST'])
+    def receive_data():
+        # Get the JSON data from the request
+        data = request.json
+
+        # Extract username and string from the JSON data
+        username = data.get('username')
+        user_string = data.get('string')
+
+        # Check if both fields are provided
+        if not username or not user_string:
+            return jsonify({'error': 'Both username and string are required!'}), 400
+
+        # Return a response with the received data
+        CS2.send_command_to_CS2(user_string)
+        return jsonify({'message': 'Data received successfully', 'username': username, 'string': user_string}), 200
+
     def find_on_desktop(file_or_folder_name):
         # Get the user's home directory
         home_dir = os.path.expanduser("~")
@@ -58,18 +86,47 @@ class CS2:
             print(f"Error running batch file: {e}")
 
     def send_command_to_CS2(command):
-        window_title = "Counter-Strike 2"
-        window_title2 = "Untitled"
-        cs2_window = gw.getWindowsWithTitle(window_title)
-        if not cs2_window:
-            print(f"Window with title '{window_title}' not found.")
-            return
+        # is the tool running on the server
+        systemName = ""
+        if platform.system() == "Windows":
+            print(platform.uname().node())
+            systemName = platform.uname().node()   
+        else:
+            print(os.utime()[1])
+            systemName = os.utime()[1]
         
-        cs2_window = cs2_window[0]
-        cs2_window.activate()
-        pyautogui.typewrite(command, interval=0.05)
-        pyautogui.press('enter')
-        time.sleep(0.5)
+        if systemName == "Server": # the tool is running on the server, send commands direct
+            window_title = "Counter-Strike 2"
+            window_title2 = "Untitled"
+            cs2_window = gw.getWindowsWithTitle(window_title)
+            if not cs2_window:
+                print(f"Window with title '{window_title}' not found.")
+                return
+        
+            cs2_window = cs2_window[0]
+            cs2_window.activate()
+            pyautogui.typewrite(command, interval=0.05)
+            pyautogui.press('enter')
+            time.sleep(0.5)
+
+        if systemName != "Server": # the tool is running on a client computer, send commands over HTTP
+            user = mainCopy.logged_user()
+            url = f'http://{host}:{port}/submit'
+            data = {
+                'username': user,
+                'string': command
+            }
+
+            # Send a POST request with the JSON data
+            response = requests.post(url, json=data)
+
+            # Check the response from the server
+            if response.status_code == 200:
+                print('Message sent successfully!')
+                print('Server response:', response.json())
+            else:
+                print('Failed to send message. Status code:', response.status_code)
+                print('Error message:', response.text)
 
     def bot(task):
         match task:
@@ -306,8 +363,6 @@ class CS2:
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3319649237") 
                 
-
-
     def respawn(option):
         match option:
             case "CT_YES":
