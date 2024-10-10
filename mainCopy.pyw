@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import PhotoImage
@@ -8,18 +9,20 @@ window = tk.Tk()
 result_variable = tk.StringVar()
 logged_user = ""
 
-Ancient = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Ancient.png").subsample(2,2)
-Anubis = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Anubis.png").subsample(2,2)
-Dust2 = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Dust2.png").subsample(2,2)
-Inferno = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Inferno.png").subsample(2,2)
-Italy = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Italy.png").subsample(2,2)
-Mirage = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Mirage.png").subsample(2,2)
-Nuke = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Nuke.png").subsample(2,2)
-Office = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Office.png").subsample(2,2)
-Overpass = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Overpass.png").subsample(2,2)
-Vertigo = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Vertigo.png").subsample(2,2)
-Baggage = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Baggage.png").subsample(9,9)
-Shoots = PhotoImage(file="C:/Users/server/Desktop/CS2_tool/assets/Shoots.png").subsample(9,9)
+base_path = os.path.join(os.path.dirname(__file__), "assets")
+
+Ancient = PhotoImage(file=os.path.join(base_path, "Ancient.png")).subsample(2, 2)
+Anubis = PhotoImage(file=os.path.join(base_path, "Anubis.png")).subsample(2, 2)
+Dust2 = PhotoImage(file=os.path.join(base_path, "Dust2.png")).subsample(2, 2)
+Inferno = PhotoImage(file=os.path.join(base_path, "Inferno.png")).subsample(2, 2)
+Italy = PhotoImage(file=os.path.join(base_path, "Italy.png")).subsample(2, 2)
+Mirage = PhotoImage(file=os.path.join(base_path, "Mirage.png")).subsample(2, 2)
+Nuke = PhotoImage(file=os.path.join(base_path, "Nuke.png")).subsample(2, 2)
+Office = PhotoImage(file=os.path.join(base_path, "Office.png")).subsample(2, 2)
+Overpass = PhotoImage(file=os.path.join(base_path, "Overpass.png")).subsample(2, 2)
+Vertigo = PhotoImage(file=os.path.join(base_path, "Vertigo.png")).subsample(2, 2)
+Baggage = PhotoImage(file=os.path.join(base_path, "Baggage.png")).subsample(9, 9)
+Shoots = PhotoImage(file=os.path.join(base_path, "Shoots.png")).subsample(9, 9)
 
 
 def login():
@@ -46,17 +49,20 @@ def login():
 
     login_button = tk.Button(login_frame, text="Login", command=lambda: login_check(entry_username.get(), entry_password.get()))
     login_button.pack(pady=10)
+    window.mainloop()
 
 def login_check(username, password):
     users = {
-    'user1': 'password1',
-    'user2': 'password2',
-    'user3': 'password3'
+    'server': 'server',
+    'Jacob': 'Gh0s7!',
+    'Chris ': 'Sh@rpe99',
+    'Jonno': 'password3'
     }
 
     if username in users and users[username] == password:
         messagebox.showinfo("Login Successful", f"Welcome, {username}!")
         logged_user = f"{username}"
+        CS2.start_flask1(username)
         main()
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
@@ -94,7 +100,9 @@ def main():
     shutdown_button = tk.Button(window, text="Shutdown", command=shutdown)
     shutdown_button.pack()
 
-    window.mainloop()
+    logout_button = tk.Button(window, text="Log Out", command=login)
+    logout_button.pack()
+
     
 
 def bot_commands():

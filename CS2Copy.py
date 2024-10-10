@@ -4,17 +4,32 @@ import pygetwindow as gw
 import pyautogui
 import time
 import subprocess
-import mainCopy
 from flask import Flask, request, jsonify
 import requests
+import threading
+from waitress import serve
+import socket
 
 app = Flask(__name__)
-host = '192.168.1.38'
+logged_user = ""
+hostname:str = socket.gethostname()
+hostIP:str = socket.gethostbyname(hostname)
 port = '63251'
 
 class CS2:
-    def start_flask():
-        app.run(host, port)
+    def start_flask1(username):
+        if username == "server":
+            # Start the server in a separate thread
+            server_thread = threading.Thread(target=CS2.start_flask2)
+            server_thread.daemon = True  # This makes sure the server thread will close when the main program exits
+            server_thread.start()
+        else:
+            logged_user = username
+            print(logged_user)
+
+    def start_flask2():
+        #app.run(host=host, port=port, threading=True)
+        serve(app, host=hostIP, port=port)
 
     @app.route('/submit', methods=['POST'])
     def receive_data():
@@ -87,15 +102,12 @@ class CS2:
 
     def send_command_to_CS2(command):
         # is the tool running on the server
-        systemName = ""
+        device_name = socket.gethostname()
         if platform.system() == "Windows":
-            print(platform.uname().node())
-            systemName = platform.uname().node()   
-        else:
-            print(os.utime()[1])
-            systemName = os.utime()[1]
+            print(device_name)  
         
-        if systemName == "Server": # the tool is running on the server, send commands direct
+    
+        if device_name == "Server": # the tool is running on the server, send commands direct
             window_title = "Counter-Strike 2"
             window_title2 = "Untitled"
             cs2_window = gw.getWindowsWithTitle(window_title)
@@ -109,11 +121,10 @@ class CS2:
             pyautogui.press('enter')
             time.sleep(0.5)
 
-        if systemName != "Server": # the tool is running on a client computer, send commands over HTTP
-            user = mainCopy.logged_user()
-            url = f'http://{host}:{port}/submit'
+        if device_name != "Server": # the tool is running on a client computer, send commands over HTTP
+            url = hostIP + ":" + port + "/submit"
             data = {
-                'username': user,
+                'username': logged_user,
                 'string': command
             }
 
