@@ -15,7 +15,8 @@ logged_user = ""
 try:
     hostIP:str = socket.gethostbyname('server')
 except:
-    pass
+    print("no server on network, switching to external IP")
+    hostIP:str = "121.73.190.141"
 port = '63251'
 
 class CS2:
