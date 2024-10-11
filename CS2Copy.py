@@ -12,8 +12,7 @@ import socket
 
 app = Flask(__name__)
 logged_user = ""
-hostname:str = socket.gethostname()
-hostIP:str = socket.gethostbyname(hostname)
+hostIP:str = socket.gethostbyname('server')
 port = '63251'
 
 class CS2:
@@ -24,6 +23,7 @@ class CS2:
             server_thread.daemon = True  # This makes sure the server thread will close when the main program exits
             server_thread.start()
         else:
+            global logged_user
             logged_user = username
             print(logged_user)
 
@@ -122,7 +122,7 @@ class CS2:
             time.sleep(0.5)
 
         if device_name != "server": # the tool is running on a client computer, send commands over HTTP
-            url = hostIP + ":" + port + "/submit"
+            url = "http://" + hostIP + ":" + port + "/submit"
             data = {
                 'username': logged_user,
                 'string': command
@@ -138,6 +138,7 @@ class CS2:
             else:
                 print('Failed to send message. Status code:', response.status_code)
                 print('Error message:', response.text)
+                print('Data contains:', data)
 
     def bot(task):
         match task:
