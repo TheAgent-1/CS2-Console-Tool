@@ -107,7 +107,7 @@ class CS2:
             print(device_name)  
         
     
-        if device_name == "Server": # the tool is running on the server, send commands direct
+        if device_name == "server": # the tool is running on the server, send commands direct
             window_title = "Counter-Strike 2"
             window_title2 = "Untitled"
             cs2_window = gw.getWindowsWithTitle(window_title)
@@ -121,7 +121,7 @@ class CS2:
             pyautogui.press('enter')
             time.sleep(0.5)
 
-        if device_name != "Server": # the tool is running on a client computer, send commands over HTTP
+        if device_name != "server": # the tool is running on a client computer, send commands over HTTP
             url = hostIP + ":" + port + "/submit"
             data = {
                 'username': logged_user,
