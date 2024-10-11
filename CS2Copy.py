@@ -113,12 +113,15 @@ class CS2:
 
             if command == "!START":
                 CS2.start_server()
+                return
 
             if command == "!START -U":
                 CS2.update_start_server()
+                return
 
             if command == "!STOP":
                 CS2.stop_server()
+                return
 
             cs2_window = gw.getWindowsWithTitle(window_title)
             if not cs2_window:
