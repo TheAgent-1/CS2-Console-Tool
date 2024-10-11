@@ -536,7 +536,7 @@ def shutdown():
     ShutdownYES_button = tk.Button(window, text="Yes", command=lambda: CS2.send_command_to_CS2("!STOP"))
     ShutdownYES_button.grid(row=2, column=0, padx=10, sticky="e")
 
-    ShutdownNO_button = tk.Button(window, text="No", command=main)
+    ShutdownNO_button = tk.Button(window, text="Back", command=main)
     ShutdownNO_button.grid(row=2, column=1, padx=10, sticky="w")
 
     window.columnconfigure(0, weight=1)
