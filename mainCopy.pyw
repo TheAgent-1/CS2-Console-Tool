@@ -56,7 +56,7 @@ def login_check(username, password):
     'server': 'server',
     'Jacob': 'Gh0s7!',
     'Chris': 'Chris',
-    'Jonno': 'password3'
+    'Jonno': 'Jonno13'
     }
 
     if username in users and users[username] == password:

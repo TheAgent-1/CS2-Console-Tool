@@ -12,7 +12,10 @@ import socket
 
 app = Flask(__name__)
 logged_user = ""
-hostIP:str = socket.gethostbyname('server')
+try:
+    hostIP:str = socket.gethostbyname('server')
+except:
+    pass
 port = '63251'
 
 class CS2:
