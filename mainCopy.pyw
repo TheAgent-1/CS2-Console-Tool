@@ -55,7 +55,7 @@ def login_check(username, password):
     users = {
     'server': 'server',
     'Jacob': 'Gh0s7!',
-    'Chris ': 'Sh@rpe99',
+    'Chris': 'Chris',
     'Jonno': 'password3'
     }
 
@@ -417,6 +417,9 @@ def workshop_map():
 
     WS_climb_button = tk.Button(window, text="Hostage Climb", command=lambda: CS2.workshop("climb"))
     WS_climb_button.grid(row=20, column=4)
+
+    WS_lighthouse_button = tk.Button(window, text="Arms Lighthouse", command=lambda: CS2.workshop("lighthouse"))
+    WS_lighthouse_button.grid(row=20, column=4)
 
 def respawn_on_death():
     for widget in window.winfo_children():
