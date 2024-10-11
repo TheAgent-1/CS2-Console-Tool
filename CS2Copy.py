@@ -441,4 +441,5 @@ class CS2:
         return duck
 
     def stop_server():
-        CS2.send_command_to_CS2("sv_shutdown")
+        #CS2.send_command_to_CS2("sv_shutdown")
+        subprocess.call("TASKKILL /F /IM cs2.exe", shell=True)
