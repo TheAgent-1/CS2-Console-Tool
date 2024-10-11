@@ -507,10 +507,10 @@ def startup():
     Confirm_label = tk.Label(window, text="Start or Update?")
     Confirm_label.grid(row=1, column=1, pady=10)
 
-    Startup_button = tk.Button(window, text="Start", command=lambda: CS2.start_server())
+    Startup_button = tk.Button(window, text="Start", command=lambda: CS2.send_command_to_CS2("!START"))
     Startup_button.grid(row=2, column=0, padx=5, sticky="e")
 
-    Update_Startup_button = tk.Button(window, text="Update and Start", command=lambda: CS2.update_start_server())
+    Update_Startup_button = tk.Button(window, text="Update and Start", command=lambda: CS2.send_command_to_CS2("!START -U"))
     Update_Startup_button.grid(row=2, column=1, padx=5)
 
     ShutdownNO_button = tk.Button(window, text="Back", command=main)
@@ -533,7 +533,7 @@ def shutdown():
     Confirm_label = tk.Label(window, text="Are You Sure?")
     Confirm_label.grid(row=1, column=0, columnspan=2, pady=10)
 
-    ShutdownYES_button = tk.Button(window, text="Yes", command=lambda: CS2.stop_server())
+    ShutdownYES_button = tk.Button(window, text="Yes", command=lambda: CS2.send_command_to_CS2("!STOP"))
     ShutdownYES_button.grid(row=2, column=0, padx=10, sticky="e")
 
     ShutdownNO_button = tk.Button(window, text="No", command=main)

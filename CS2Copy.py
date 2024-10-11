@@ -110,6 +110,16 @@ class CS2:
         if device_name == "server": # the tool is running on the server, send commands direct
             window_title = "Counter-Strike 2"
             window_title2 = "Untitled"
+
+            if command == "!START":
+                CS2.start_server()
+
+            if command == "!START -U":
+                CS2.update_start_server()
+
+            if command == "!STOP":
+                CS2.stop_server()
+
             cs2_window = gw.getWindowsWithTitle(window_title)
             if not cs2_window:
                 print(f"Window with title '{window_title}' not found.")
