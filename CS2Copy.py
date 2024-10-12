@@ -9,6 +9,7 @@ import requests
 import threading
 from waitress import serve
 import socket
+from tkinter import messagebox
 
 app = Flask(__name__)
 logged_user = ""
@@ -146,13 +147,18 @@ class CS2:
             }
 
             # Send a POST request with the JSON data
-            response = requests.post(url, json=data)
+            try:
+                response = requests.post(url, json=data, timeout=5)
+            except:
+                messagebox.showerror("Error from server", "Could not contact server\n\nCheck server for running tool")
+                return
 
             # Check the response from the server
             if response.status_code == 200:
                 print('Message sent successfully!')
                 print('Server response:', response.json())
             else:
+                messagebox.showerror("Error from server", f'Code: {response.status_code} \nMessage: {response.text} \nData: {data}')
                 print('Failed to send message. Status code:', response.status_code)
                 print('Error message:', response.text)
                 print('Data contains:', data)
