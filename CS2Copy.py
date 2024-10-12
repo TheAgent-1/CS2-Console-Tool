@@ -157,6 +157,8 @@ class CS2:
             if response.status_code == 200:
                 print('Message sent successfully!')
                 print('Server response:', response.json())
+            if response.status_code == 500:
+                messagebox.showerror("Error from server", 'Server is overloaded, Please restart Server-side tool')
             else:
                 messagebox.showerror("Error from server", f'Code: {response.status_code} \nMessage: {response.text} \nData: {data}')
                 print('Failed to send message. Status code:', response.status_code)
