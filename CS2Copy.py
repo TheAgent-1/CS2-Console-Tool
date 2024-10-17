@@ -42,8 +42,8 @@ class CS2:
         data = request.json
 
         # Extract username and string from the JSON data
-        username = data.get('username')
-        user_string = data.get('string')
+        username = data.get("username")
+        user_string = data.get("string")
 
         # Check if the order is preserved
         param_order = list(data.keys())
@@ -52,13 +52,13 @@ class CS2:
         if not username or not user_string:
             return jsonify({'error': 'Both username and string are required!'}), 400
         
-        if param_order.index('username') > param_order.index('string'):
+        if param_order.index("username") > param_order.index("string"):
             print('Bad data sent')
             return jsonify({'error': 'Bad data sent'}), 400
 
         # Return a response with the received data
         CS2.send_command_to_CS2(user_string)
-        return jsonify({'message': 'Data received successfully', 'username': username, 'string': user_string}), 200
+        return jsonify({'message': 'Data received successfully', "username": username, "string": user_string}), 200
 
     def find_on_desktop(file_or_folder_name):
         # Get the user's home directory
@@ -149,8 +149,8 @@ class CS2:
         if device_name != "server": # the tool is running on a client computer, send commands over HTTP
             url = "http://" + hostIP + ":" + port + "/submit"
             data = {
-                'username': logged_user,
-                'string': command
+                "username": logged_user,
+                "string": command
             }
 
             # Send a POST request with the JSON data
@@ -164,13 +164,16 @@ class CS2:
             if response.status_code == 200:
                 print('Message sent successfully!')
                 print('Server response:', response.json())
+                return
             if response.status_code == 500:
                 messagebox.showerror("Error from server", 'Server is overloaded, Please restart Server-side tool')
+                return
             else:
                 messagebox.showerror("Error from server", f'Code: {response.status_code} \nMessage: {response.text} \nData: {data}')
                 print('Failed to send message. Status code:', response.status_code)
                 print('Error message:', response.text)
                 print('Data contains:', data)
+                return
 
     def bot(task):
         match task:
