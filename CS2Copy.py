@@ -45,9 +45,16 @@ class CS2:
         username = data.get('username')
         user_string = data.get('string')
 
+        # Check if the order is preserved
+        param_order = list(data.keys())
+
         # Check if both fields are provided
         if not username or not user_string:
             return jsonify({'error': 'Both username and string are required!'}), 400
+        
+        if param_order.index('username') < param_order.index('string'):
+            print('Bad data sent')
+            return jsonify({'error': 'Bad data sent'}), 400
 
         # Return a response with the received data
         CS2.send_command_to_CS2(user_string)
