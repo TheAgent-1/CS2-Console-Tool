@@ -52,7 +52,7 @@ class CS2:
         if not username or not user_string:
             return jsonify({'error': 'Both username and string are required!'}), 400
         
-        if param_order.index('username') < param_order.index('string'):
+        if param_order.index('username') > param_order.index('string'):
             print('Bad data sent')
             return jsonify({'error': 'Bad data sent'}), 400
 
