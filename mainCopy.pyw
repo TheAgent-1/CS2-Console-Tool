@@ -412,11 +412,8 @@ def workshop_map():
     WS_rainfall_button = tk.Button(window, text="Bomb Rainfall", command=lambda: CS2.workshop("rainfall"))
     WS_rainfall_button.grid(row=18, column=4)
 
-    WS_hijacked_button = tk.Button(window, text="Bomb Hijacked", command=lambda: CS2.workshop("hijacked"))
-    WS_hijacked_button.grid(row=19, column=4)
-
     WS_climb_button = tk.Button(window, text="Hostage Climb", command=lambda: CS2.workshop("climb"))
-    WS_climb_button.grid(row=20, column=4)
+    WS_climb_button.grid(row=19, column=4)
 
     WS_lighthouse_button = tk.Button(window, text="Arms Lighthouse", command=lambda: CS2.workshop("lighthouse"))
     WS_lighthouse_button.grid(row=20, column=4)

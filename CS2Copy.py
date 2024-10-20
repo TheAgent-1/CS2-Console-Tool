@@ -403,9 +403,6 @@ class CS2:
             case "rainfall":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3265650949") 
-            case "hijacked":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3341812939") 
             case "climb":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3319649237")
