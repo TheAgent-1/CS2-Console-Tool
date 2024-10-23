@@ -407,7 +407,10 @@ class CS2:
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3319649237")
             case "lighthouse":
-                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3342529755")
+            case "lighthouse":
+                CS2.gamemode("deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3342529755")
                 
     def respawn(option):

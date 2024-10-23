@@ -415,8 +415,11 @@ def workshop_map():
     WS_climb_button = tk.Button(window, text="Hostage Climb", command=lambda: CS2.workshop("climb"))
     WS_climb_button.grid(row=19, column=4)
 
-    WS_lighthouse_button = tk.Button(window, text="Arms Lighthouse", command=lambda: CS2.workshop("lighthouse"))
+    WS_lighthouse_button = tk.Button(window, text="Bomb Lighthouse", command=lambda: CS2.workshop("lighthouse"))
     WS_lighthouse_button.grid(row=20, column=4)
+
+    WS_lighthouse_button = tk.Button(window, text="Death Lighthouse", command=lambda: CS2.workshop("lighthouse"))
+    WS_lighthouse_button.grid(row=21, column=4)
 
 def respawn_on_death():
     for widget in window.winfo_children():
