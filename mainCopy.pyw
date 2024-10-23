@@ -418,7 +418,7 @@ def workshop_map():
     WS_lighthouse_button = tk.Button(window, text="Bomb Lighthouse", command=lambda: CS2.workshop("lighthouse"))
     WS_lighthouse_button.grid(row=20, column=4)
 
-    WS_lighthouse_button = tk.Button(window, text="Death Lighthouse", command=lambda: CS2.workshop("lighthouse"))
+    WS_lighthouse_button = tk.Button(window, text="Deathmatch Lighthouse", command=lambda: CS2.workshop("lighthouse"))
     WS_lighthouse_button.grid(row=21, column=4)
 
 def respawn_on_death():
