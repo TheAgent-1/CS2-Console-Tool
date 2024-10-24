@@ -91,7 +91,7 @@ def main():
     respawn_on_death_button = tk.Button(window, text="Respawn On Death", command=respawn_on_death)
     respawn_on_death_button.pack()
 
-    kick_button = tk.Button(window, text="Kick", command=kick_player)
+    kick_button = tk.Button(window, text="3 minute ban", command=kick_player)
     kick_button.pack()
 
     startup_button = tk.Button(window, text="Start Server", command=startup)
@@ -497,7 +497,7 @@ def kick_player():
     Back_button = tk.Button(window, text="Back", command=main)
     Back_button.pack()
 
-    kick = tk.Button(window, text="kick", command=lambda: CS2.send_command_to_CS2("kick Melben"))
+    kick = tk.Button(window, text="3 minute ban", command=lambda: CS2.send_command_to_CS2("sm_ban Melben 3"))
     kick.pack()
 
 def startup():
