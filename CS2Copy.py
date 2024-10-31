@@ -424,6 +424,10 @@ class CS2:
             case "T_NO":
                 CS2.send_command_to_CS2("mp_respawn_on_death_t 0")
 
+    def kick(player):
+        CS2.send_command_to_CS2("sv_kick_ban_duration 3")
+        CS2.send_command_to_CS2("kick Melben")
+
     def start_server():
         import secrets
         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")

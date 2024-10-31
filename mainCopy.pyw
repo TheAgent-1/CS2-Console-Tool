@@ -497,7 +497,7 @@ def kick_player():
     Back_button = tk.Button(window, text="Back", command=main)
     Back_button.pack()
 
-    kick = tk.Button(window, text="3 minute ban", command=lambda: CS2.send_command_to_CS2("sm_ban Melben 3"))
+    kick = tk.Button(window, text="3 minute ban", command=lambda: CS2.kick("Melben"))
     kick.pack()
 
 def startup():
