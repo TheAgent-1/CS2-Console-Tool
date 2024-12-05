@@ -339,6 +339,9 @@ def workshop_map():
     WS_poolday_button = tk.Button(window, text="Arms PoolDay", command=lambda: CS2.workshop("pooldayarms"))
     WS_poolday_button.grid(row=7, column=1)
 
+    WS_breadwindow_button = tk.Button(window, text="Arms Breadwindow", command=lambda: CS2.workshop("breadwindowarms"))
+    WS_breadwindow_button.grid(row=8, column=1)
+ 
 
     #Deathmatch
 
@@ -420,6 +423,12 @@ def workshop_map():
 
     WS_lighthouse_button = tk.Button(window, text="Deathmatch Lighthouse", command=lambda: CS2.workshop("lighthouse"))
     WS_lighthouse_button.grid(row=21, column=4)
+
+    WS_agency_button = tk.Button(window, text="Hostage Agency", command=lambda: CS2.workshop("agency"))
+    WS_agency_button.grid(row=22, column=4)
+
+    WS_paris2024_button = tk.Button(window, text="Hostage Paris2024", command=lambda: CS2.workshop("paris2024"))
+    WS_paris2024_button.grid(row=23, column=4)
 
 def respawn_on_death():
     for widget in window.winfo_children():

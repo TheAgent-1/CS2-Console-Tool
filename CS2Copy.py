@@ -412,7 +412,17 @@ class CS2:
             case "lighthouse":
                 CS2.gamemode("deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3342529755")
+            case "breadwindow":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3371417956")
+            case "agency":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3339983232")
+            case "paris2024":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3344069159")
                 
+
     def respawn(option):
         match option:
             case "CT_YES":
