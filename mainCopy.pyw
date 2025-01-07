@@ -339,9 +339,6 @@ def workshop_map():
     WS_poolday_button = tk.Button(window, text="Arms PoolDay", command=lambda: CS2.workshop("pooldayarms"))
     WS_poolday_button.grid(row=7, column=1)
 
-    WS_breadwindow_button = tk.Button(window, text="Arms Breadwindow", command=lambda: CS2.workshop("breadwindowarms"))
-    WS_breadwindow_button.grid(row=8, column=1)
- 
 
     #Deathmatch
 
@@ -353,6 +350,9 @@ def workshop_map():
 
     WS_halodeath_button = tk.Button(window, text="Deathmatch Halo", command=lambda: CS2.workshop("halodeath"))
     WS_halodeath_button.grid(row=4, column=3)
+
+    WS_breadwindow_button = tk.Button(window, text="Deathmatch Breadwindow", command=lambda: CS2.workshop("breadwindowarms"))
+    WS_breadwindow_button.grid(row=5, column=3)
 
     #1PM
     WS_blackgold1pm_button = tk.Button(window, text="Black Gold 1PM", command=lambda: CS2.workshop("blackgold1pm"))
