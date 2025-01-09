@@ -413,7 +413,7 @@ class CS2:
                 CS2.gamemode("deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3342529755")
             case "breadwindow":
-                CS2.gamemode("armsrace")
+                CS2.gamemode("deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3371417956")
             case "agency":
                 CS2.send_command_to_CS2("game_alias casual")
