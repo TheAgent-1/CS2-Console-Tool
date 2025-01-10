@@ -15,8 +15,8 @@ app = Flask(__name__)
 logged_user = ""
 try:
     hostIP:str = socket.gethostbyname('server')
-except:
-    print("no server on network, switching to external IP")
+except socket.gaierror:
+    print("No server on network, switching to external IP")
     hostIP:str = "121.73.190.141"
 port = '63251'
 
@@ -111,6 +111,8 @@ class CS2:
             subprocess.run(path, shell=True, check=True)
         except subprocess.CalledProcessError as e:
             print(f"Error running batch file: {e}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
 
     def send_command_to_CS2(command):
         # is the tool running on the server
@@ -156,8 +158,8 @@ class CS2:
             # Send a POST request with the JSON data
             try:
                 response = requests.post(url, json=data, timeout=5)
-            except:
-                messagebox.showerror("Error from server", "Could not contact server\n\nCheck server for running tool")
+            except requests.exceptions.RequestException as e:
+                messagebox.showerror("Error from server", f"Could not contact server\n\nCheck server for running tool\n\nError: {e}")
                 return
 
             # Check the response from the server
@@ -348,7 +350,7 @@ class CS2:
                 CS2.send_command_to_CS2("host_workshop_map 3070284539")
             #case "turbulence":
              #   CS2.send_command_to_CS2("game_alias casual")
-             #  CS2.send_command_to_CS2("host_workshop_map 3307334950")
+             #   CS2.send_command_to_CS2("host_workshop_map 3307334950")
             #case "invasionarms":
              #   CS2.gamemode("armsrace")
              #   CS2.send_command_to_CS2("host_workshop_map 3307925166")
@@ -459,22 +461,29 @@ class CS2:
             print(f"Error executing {randomfile_path}: {e}")
         
     def update_start_server():
-        subprocess.Popen("C:/Users/server/Desktop/CS2_tool/BigBrotherUpdate.bat")
+        try:
+            subprocess.Popen("C:/Users/server/Desktop/CS2_tool/BigBrotherUpdate.bat")
+        except Exception as e:
+            print(f"Error executing update script: {e}")
 
     def update_IP():
-        import requests
+        try:
+            import requests
 
-        duck_token = '1bf2b997-5e79-4061-b51d-d2d49a40b076'
-        domain = 'croul'
+            duck_token = '1bf2b997-5e79-4061-b51d-d2d49a40b076'
+            domain = 'croul'
 
-        ip = requests.get('https://api.ipify.org').text
-        print('my ip: {}'.format(ip))
+            ip = requests.get('https://api.ipify.org').text
+            print('my ip: {}'.format(ip))
 
-        url = 'https://duckdns.org/update/' + domain + '/' + duck_token + '/' + ip
+            url = 'https://duckdns.org/update/' + domain + '/' + duck_token + '/' + ip
 
-        duck = requests.get(url).text
-        print(duck)
-        return duck
+            duck = requests.get(url).text
+            print(duck)
+            return duck
+        except requests.exceptions.RequestException as e:
+            print(f"Error updating IP: {e}")
+            return None
 
     def stop_server():
         #CS2.send_command_to_CS2("sv_shutdown")

@@ -1,5 +1,0 @@
-main line 354 - WS_breadwindow_button = tk.Button(window, text="Deathmatch Breadwindow", command=lambda: CS2.workshop("breadwindowarms"))
-
-CS2  line 415 - case "breadwindow":
-                    CS2.gamemode("deathmatch")
-                    CS2.send_command_to_CS2("host_workshop_map 3371417956")

@@ -7,7 +7,6 @@ from CS2Copy import CS2
 
 window = tk.Tk()
 result_variable = tk.StringVar()
-logged_user = ""
 
 base_path = os.path.join(os.path.dirname(__file__), "assets")
 
@@ -61,7 +60,6 @@ def login_check(username, password):
 
     if username in users and users[username] == password:
         messagebox.showinfo("Login Successful", f"Welcome, {username}!")
-        logged_user = f"{username}"
         CS2.start_flask1(username)
         main()
     else:
@@ -123,7 +121,6 @@ def bot_commands():
 
     bot_giveAI_button = tk.Button(window, text="Give AI to Bots", command=lambda: CS2.bot("give_AI"))
     bot_giveAI_button.pack()
-    pass
 
 def game_mode():
     for widget in window.winfo_children():
@@ -161,7 +158,6 @@ def game_mode():
 
     OnePerMatch_button = tk.Button(window, text="1 per match", command=lambda:CS2.gamemode("1PM"))
     OnePerMatch_button.pack()
-    pass
 
 def change_map():
     for widget in window.winfo_children():
@@ -208,8 +204,6 @@ def change_map():
 
     Shoots_button = tk.Button(window, text="Shoots", image=Shoots, command=lambda: CS2.change_map("Shoots"))
     Shoots_button.grid(row=3, column=2)
-
-    pass
 
 def workshop_map():
     #casual - column=0
@@ -448,7 +442,6 @@ def respawn_on_death():
 
     TN_button = tk.Button(window, text="T's dont respawn", command=lambda: CS2.respawn("T_NO"))
     TN_button.pack()
-    pass
 
 def custom_setup():
     for widget in window.winfo_children():
