@@ -137,9 +137,9 @@ class CS2:
                 CS2.stop_server()
                 return
 
-            cs2_window = gw.getWindowsWithTitle(window_title2)
+            cs2_window = gw.getWindowsWithTitle(window_title)
             if not cs2_window:
-                print(f"Window with title '{window_title2}' not found.")
+                print(f"Window with title '{window_title}' not found.")
                 return
         
             cs2_window = cs2_window[0]
