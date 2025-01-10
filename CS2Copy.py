@@ -356,9 +356,6 @@ class CS2:
             case "lunacyArms":
                 CS2.gamemode("armsrace")
                 CS2.send_command_to_CS2("host_workshop_map 3070560242")
-            #case "planeArms":
-                #CS2.gamemode("armsrace")
-                #CS2.send_command_to_CS2("host_workshop_map 3217247541")
             case "monasteryArms":
                 CS2.gamemode("armsrace")
                 CS2.send_command_to_CS2("host_workshop_map 3070547153")
@@ -410,6 +407,9 @@ class CS2:
 
 
             #REMOVED
+            #case "planeArms":
+                #CS2.gamemode("armsrace")
+                #CS2.send_command_to_CS2("host_workshop_map 3217247541")
             #case "minimirage":
                 #CS2.send_command_to_CS2("game_alias casual")
                 #CS2.send_command_to_CS2("host_workshop_map 3099519038")

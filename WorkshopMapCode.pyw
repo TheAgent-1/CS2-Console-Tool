@@ -18,7 +18,7 @@ label3 = tk.Label(window, text="Game Mode:")
 label3.pack(pady=5)
 dropdown_var = tk.StringVar(window)
 dropdown_var.set("Casual")  # default value
-dropdown_menu = tk.OptionMenu(window, dropdown_var, "Casual", "Arms Race", "Deathmatch", "Survival")
+dropdown_menu = tk.OptionMenu(window, dropdown_var, "Casual", "Arms Race", "Deathmatch")
 dropdown_menu.pack(pady=5)
 
 label4 = tk.Label(window, text="Casual Mode:")

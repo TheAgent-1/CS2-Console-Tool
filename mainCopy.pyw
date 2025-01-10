@@ -362,9 +362,6 @@ def workshop_map():
     WS_lunacyArms_button = tk.Button(Armsrace_frame, text="Arms Lunacy", command=lambda: CS2.workshop("lunacyArms"))
     WS_lunacyArms_button.pack()
 
-    #WS_planeArms_button = tk.Button(Armsrace_frame, text="Arms Plane", command=lambda: CS2.workshop("planeArms"))
-    #WS_planeArms_button.pack()
-
     WS_monasteryArms_button = tk.Button(Armsrace_frame, text="Arms Monastery", command=lambda: CS2.workshop("monasteryArms"))
     WS_monasteryArms_button.pack()
 
@@ -412,7 +409,9 @@ def workshop_map():
 
 
 
-    
+    #REMOVED
+    #WS_planeArms_button = tk.Button(Armsrace_frame, text="Arms Plane", command=lambda: CS2.workshop("planeArms"))
+    #WS_planeArms_button.pack()
 
     #WS_minimirage_button = tk.Button(window, text="Minimirage", command=lambda: CS2.workshop("minimirage"))
     #WS_minimirage_button.pack()
