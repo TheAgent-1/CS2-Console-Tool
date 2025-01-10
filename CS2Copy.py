@@ -137,9 +137,9 @@ class CS2:
                 CS2.stop_server()
                 return
 
-            cs2_window = gw.getWindowsWithTitle(window_title)
+            cs2_window = gw.getWindowsWithTitle(window_title2)
             if not cs2_window:
-                print(f"Window with title '{window_title}' not found.")
+                print(f"Window with title '{window_title2}' not found.")
                 return
         
             cs2_window = cs2_window[0]
@@ -414,8 +414,8 @@ class CS2:
             case "lighthouse":
                 CS2.gamemode("deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3342529755")
-            case "breadwindow":
-                CS2.gamemode("deathmatch")
+            case "breadwindowDeathmatch":
+                CS2.send_command_to_CS2("game_alias deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3371417956")
             case "agency":
                 CS2.send_command_to_CS2("game_alias casual")
