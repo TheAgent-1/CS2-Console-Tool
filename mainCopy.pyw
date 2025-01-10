@@ -69,7 +69,7 @@ def login_check(username, password):
 def main():
     
     window.title("CS2 GUI")
-    window.geometry("620x600") # Add this line to set the window size
+    window.geometry("620x800") # Add this line to set the window size
 
     for widget in window.winfo_children():
         widget.destroy()
@@ -206,10 +206,11 @@ def change_map():
     Shoots_button.grid(row=3, column=2)
 
 def workshop_map():
-    #casual - column=0
-    #arms - column=1
-    #death- column=3
-    #1PM - column=4
+    #Bomb - column=0
+    #Hostage - column=1
+    #arms - column=3
+    #death- column=4
+    
 
     for widget in window.winfo_children():
         widget.destroy()
@@ -218,19 +219,21 @@ def workshop_map():
     Back_button.grid(row=0, column=2)
 
 
-    Casual_label = tk.Label(window, text="Casual", bg="lightblue", font=("Arial", 12, "bold"))
-    Casual_label.grid(row=1, column=0)
+    Bomb_label = tk.Label(window, text="Bomb", bg="lightblue", font=("Arial", 12, "bold"))
+    Bomb_label.grid(row=1, column=0)
+
+    Hostage_label = tk.Label(window, text="Hostage", bg="lightblue", font=("Arial", 12, "bold"))
+    Hostage_label.grid(row=1, column=1)
 
     Armsrace_label = tk.Label(window, text="Armsrace", bg="lightblue", font=("Arial", 12, "bold"))
-    Armsrace_label.grid(row=1, column=1)
+    Armsrace_label.grid(row=1, column=3)
 
     Deathmatch_label = tk.Label(window, text="Deathmatch", bg="lightblue", font=("Arial", 12, "bold"))
-    Deathmatch_label.grid(row=1, column=3)
+    Deathmatch_label.grid(row=1, column=4)
 
-    OnePerMatch_label = tk.Label(window, text="One Per Match", bg="lightblue", font=("Arial", 12, "bold"))
-    OnePerMatch_label.grid(row=1, column=4)
+    
 
-    #CASUAL
+    #BOMB
     WS_rush_button = tk.Button(window, text="Hostage Rush", command=lambda: CS2.workshop("rush"))
     WS_rush_button.grid(row=2, column=0)
 
