@@ -238,191 +238,212 @@ class CS2:
 
     def workshop(WS_map):
         match WS_map:
-            case "rush":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3077752384")
-            case "foroglio":
+
+            #BOMB
+            case "foroglioCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3132854332")
-            case "assembly":
+            case "assemblyCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3071005299")
-            case "safehouse":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3070550406")
-            #case "minimirage":
-                #CS2.send_command_to_CS2("game_alias casual")
-                #CS2.send_command_to_CS2("host_workshop_map 3099519038")
-            case "minecraft":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3095875614")
-            #case "rustdeath":
-                #CS2.gamemode("deathmatch")
-                #CS2.send_command_to_CS2("host_workshop_map 3131645522")
-            case "blackgold":
+            case "blackgoldCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3075012302")
-            case "lake":
+            case "lakeCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3070563536")
-#            case "2towers":
-#                CS2.send_command_to_CS2("host_workshop_map 3160551327")
-            #case "nuketown":
-                #CS2.send_command_to_CS2("game_alias casual")
-                #CS2.send_command_to_CS2("host_workshop_map 3133577140")
-            case "dam":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3072481684")
-            case "bank":
+            case "bankCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3070581293")
-            case "bikinibottom":
+            case "bikinibottomCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3204870970")
-            case "lunacy":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3070560242")
-            case "plane":
+            case "planeCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3217247541")
-            #case "planearms":
-                #CS2.gamemode("armsrace")
-                #CS2.send_command_to_CS2("host_workshop_map 3217247541")
-            case "monastery":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3070547153")
-            case "stmarc":
+            case "stmarcCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3070562370")
-            case "stmarcarms":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3070562370")
-            case "assault":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3079872050")
-            case "omahabeachdeath":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3148007939")
-            case "omahabeach":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3148007939")
-            case "sugarcane":
+            case "sugarcaneCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3070579459")
-            case "rainbow6":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3115452448")
-            case "militia":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3202169771")
-            case "astra":
+            case "astraCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3083296922")
-            case "astradeath":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3083296922")
-            case "blackgold1pm":
-                CS2.gamemode("1PM")
-                CS2.send_command_to_CS2("host_workshop_map 3075012302")
-            case "churchesarms":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3070291913")
-            case "stairsarms":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3264733671")
-            case "halodeath":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3255907412")
-            case "glass":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3089842427")
-            case "maginot":
+            case "maginotCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3195399109")
-            case "palais":
+            case "palaisCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3257582863")
-            #case "chickens":
-             #   CS2.send_command_to_CS2("game_alias casual")
-             #   CS2.send_command_to_CS2("host_workshop_map 3072401024")
-            case "train":
+            case "omahabeachCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3148007939")
+            case "trainCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3070284539")
-            #case "turbulence":
-             #   CS2.send_command_to_CS2("game_alias casual")
-             #   CS2.send_command_to_CS2("host_workshop_map 3307334950")
-            #case "invasionarms":
-             #   CS2.gamemode("armsrace")
-             #   CS2.send_command_to_CS2("host_workshop_map 3307925166")
-            case "attic":
+            case "atticCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3305148449")
-            case "pooldayarms":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3070923343")
-            case "hijack":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3310206718")
-            #case "mirage45":
-             #   CS2.send_command_to_CS2("game_alias casual")
-             #   CS2.send_command_to_CS2("host_workshop_map 3270516952")
-            case "themetro":
+            case "themetroCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3326236589")
-            case "cache":
+            case "cacheCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3328271311")
-            case "inca":
+            case "incaCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3325387224")
-            case "sparity":
+            case "sparityCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3317923634")
-            case "futsal":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3293224257")
-            case "basalt":
+            case "basaltCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3329258290")
-            case "zoo":
+            case "zooCasual":
                 CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3101352333")   
-            case "eternal":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3094002407")
-            case "mansion":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3080114822")
-            case "aireality":
-                CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3105649124")
-            case "speedball":
-                CS2.gamemode("armsrace")
-                CS2.send_command_to_CS2("host_workshop_map 3111527644")
-            case "tuscan":
+                CS2.send_command_to_CS2("host_workshop_map 3101352333")
+            case "tuscanCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3267671493")   
-            case "rainfall":
+            case "rainfallCasual":
                 CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3265650949") 
-            case "climb":
+                CS2.send_command_to_CS2("host_workshop_map 3265650949")
+            case "lighthouseCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3342529755")
+
+
+
+            #HOSTAGE
+            case "rushCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3077752384")
+            case "safehouseCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3070550406")
+            case "minecraftCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3095875614")
+            case "damCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3072481684")
+            case "assaultCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3079872050")
+            case "rainbow6Casual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3115452448")
+            case "militiaCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3202169771")
+            case "hijackCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3310206718")
+            case "climbCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3319649237")
-            case "lighthousebomb":
+            case "agencyCasual":
                 CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3342529755")
-            case "lighthouse":
+                CS2.send_command_to_CS2("host_workshop_map 3339983232")
+            case "paris2024Casual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3344069159")
+
+            
+
+            #ARMSRACE
+            case "lunacyArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3070560242")
+            #case "planeArms":
+                #CS2.gamemode("armsrace")
+                #CS2.send_command_to_CS2("host_workshop_map 3217247541")
+            case "monasteryArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3070547153")
+            case "stmarcArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3070562370")
+            case "stairsArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3264733671")
+            case "churchesArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3070291913")
+            case "pooldayArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3070923343")
+            case "speedballArms":
+                CS2.gamemode("armsrace")
+                CS2.send_command_to_CS2("host_workshop_map 3111527644")
+            
+
+
+            
+            #DEATHMATCH
+            case "omahabeachDeathmatch":
                 CS2.gamemode("deathmatch")
-                CS2.send_command_to_CS2("host_workshop_map 3342529755")
+                CS2.send_command_to_CS2("host_workshop_map 3148007939")
+            case "astraDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3083296922")
+            case "haloDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3255907412")
             case "breadwindowDeathmatch":
                 CS2.send_command_to_CS2("game_alias deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3371417956")
-            case "agency":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3339983232")
-            case "paris2024":
-                CS2.send_command_to_CS2("game_alias casual")
-                CS2.send_command_to_CS2("host_workshop_map 3344069159")
+            case "eternalDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3094002407")
+            case "mansionDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3080114822")
+            case "airealityDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3105649124")
+            case "lighthouseDeathmatch":
+                CS2.gamemode("deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3342529755")
+
+
+
+            #REMOVED
+            #case "minimirage":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3099519038")
+            #case "rustdeath":
+                #CS2.gamemode("deathmatch")
+                #CS2.send_command_to_CS2("host_workshop_map 3131645522")
+            #case "2towers":
+                #CS2.send_command_to_CS2("host_workshop_map 3160551327")
+            #case "nuketown":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3133577140")
+            #case "glass":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3089842427")
+            #case "chickens":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3072401024")
+            #case "turbulence":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3307334950")
+            #case "invasionarms":
+                #CS2.gamemode("armsrace")
+                #CS2.send_command_to_CS2("host_workshop_map 3307925166")
+            #case "mirage45":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3270516952")
+            #case "futsal":
+                #CS2.send_command_to_CS2("game_alias casual")
+                #CS2.send_command_to_CS2("host_workshop_map 3293224257")
+              
+            
+            
+            
+            
                 
 
     def respawn(option):

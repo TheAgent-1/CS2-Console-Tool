@@ -55,7 +55,8 @@ def login_check(username, password):
     'server': 'server',
     'Jacob': 'Gh0s7!',
     'Chris': 'Chris',
-    'Jonno': 'Jonno13'
+    'Jonno': 'Jonno13',
+    'test': ''
     }
 
     if username in users and users[username] == password:
@@ -219,47 +220,205 @@ def workshop_map():
     Back_button.grid(row=0, column=2)
 
 
-    Bomb_label = tk.Label(window, text="Bomb", bg="lightblue", font=("Arial", 12, "bold"))
-    Bomb_label.grid(row=1, column=0)
 
-    Hostage_label = tk.Label(window, text="Hostage", bg="lightblue", font=("Arial", 12, "bold"))
-    Hostage_label.grid(row=1, column=1)
+    Bomb_frame = tk.Frame(window, bg="lightblue", padx=10, pady=10)
+    Bomb_frame.grid(row=1, column=0, rowspan=26, sticky="nsew")
 
-    Armsrace_label = tk.Label(window, text="Armsrace", bg="lightblue", font=("Arial", 12, "bold"))
-    Armsrace_label.grid(row=1, column=3)
+    Hostage_frame = tk.Frame(window, bg="lightblue", padx=10, pady=10)
+    Hostage_frame.grid(row=1, column=1, rowspan=26, sticky="nsew")
 
-    Deathmatch_label = tk.Label(window, text="Deathmatch", bg="lightblue", font=("Arial", 12, "bold"))
-    Deathmatch_label.grid(row=1, column=4)
+    Armsrace_frame = tk.Frame(window, bg="lightblue", padx=10, pady=10)
+    Armsrace_frame.grid(row=1, column=3, rowspan=26, sticky="nsew")
+
+    Deathmatch_frame = tk.Frame(window, bg="lightblue", padx=10, pady=10)
+    Deathmatch_frame.grid(row=1, column=4, rowspan=26, sticky="nsew")
+
+    Bomb_label = tk.Label(Bomb_frame, text="Bomb", bg="lightblue", font=("Arial", 12, "bold"))
+    Bomb_label.pack()
+
+    Hostage_label = tk.Label(Hostage_frame, text="Hostage", bg="lightblue", font=("Arial", 12, "bold"))
+    Hostage_label.pack()
+
+    Armsrace_label = tk.Label(Armsrace_frame, text="Armsrace", bg="lightblue", font=("Arial", 12, "bold"))
+    Armsrace_label.pack()
+
+    Deathmatch_label = tk.Label(Deathmatch_frame, text="Deathmatch", bg="lightblue", font=("Arial", 12, "bold"))
+    Deathmatch_label.pack()
 
     
 
     #BOMB
-    WS_rush_button = tk.Button(window, text="Hostage Rush", command=lambda: CS2.workshop("rush"))
-    WS_rush_button.grid(row=2, column=0)
+    WS_foroglioCasual_button = tk.Button(Bomb_frame, text="Casual Foroglio", command=lambda: CS2.workshop("foroglioCasual"))
+    WS_foroglioCasual_button.pack()
 
-    WS_foroglio_button = tk.Button(window, text="Casual Foroglio", command=lambda: CS2.workshop("foroglio"))
-    WS_foroglio_button.grid(row=3, column=0)
+    WS_assemblyCasual_button = tk.Button(Bomb_frame, text="Casual Assembly", command=lambda: CS2.workshop("assemblyCasual"))
+    WS_assemblyCasual_button.pack()
 
-    WS_assembly_button = tk.Button(window, text="Casual Assembly", command=lambda: CS2.workshop("assembly"))
-    WS_assembly_button.grid(row=4, column=0)
+    WS_blackgoldCasual_button = tk.Button(Bomb_frame, text="Casual Black Gold", command=lambda: CS2.workshop("blackgoldCasual"))
+    WS_blackgoldCasual_button.pack()
 
-    WS_safehouse_button = tk.Button(window, text="Hostage Safehouse", command=lambda: CS2.workshop("safehouse"))
-    WS_safehouse_button.grid(row=5, column=0)
+    WS_lakeCasual_button = tk.Button(Bomb_frame, text="Casual lake", command=lambda: CS2.workshop("lakeCasual"))
+    WS_lakeCasual_button.pack()
+
+    WS_bankCasual_button = tk.Button(Bomb_frame, text="Casual Bank", command=lambda: CS2.workshop("bankCasual"))
+    WS_bankCasual_button.pack()
+
+    WS_bikinibottomCasual_button = tk.Button(Bomb_frame, text="Casual BikiniBottom", command=lambda: CS2.workshop("bikinibottomCasual"))
+    WS_bikinibottomCasual_button.pack()
+
+    WS_planeCasual_button = tk.Button(Bomb_frame, text="Casual Plane", command=lambda: CS2.workshop("planeCasual"))
+    WS_planeCasual_button.pack()
+
+    WS_stmarcCasual_button = tk.Button(Bomb_frame, text="Casual StMarc", command=lambda: CS2.workshop("stmarcCasual"))
+    WS_stmarcCasual_button.pack()
+
+    WS_sugarcaneCasual_button = tk.Button(Bomb_frame, text="Casual SugarCane", command=lambda: CS2.workshop("sugarcaneCasual"))
+    WS_sugarcaneCasual_button.pack()
+
+    WS_astraCasual_button = tk.Button(Bomb_frame, text="Casual Astra", command=lambda: CS2.workshop("astraCasual"))
+    WS_astraCasual_button.pack()
+
+    WS_maginotCasual_button = tk.Button(Bomb_frame, text="Casual Maginot", command=lambda: CS2.workshop("maginotCasual"))
+    WS_maginotCasual_button.pack()
+    
+    WS_palaisCasual_button = tk.Button(Bomb_frame, text="Casual Palais", command=lambda: CS2.workshop("palaisCasual"))
+    WS_palaisCasual_button.pack()
+
+    WS_omahabeachCasual_button = tk.Button(Bomb_frame, text="Casual OmhaBeach", command=lambda: CS2.workshop("omahabeachCasual"))
+    WS_omahabeachCasual_button.pack()
+
+    WS_trainCasual_button = tk.Button(Bomb_frame, text="Casual Train", command=lambda: CS2.workshop("trainCasual"))
+    WS_trainCasual_button.pack()
+
+    WS_atticCasual_button = tk.Button(Bomb_frame, text="Casual Attic", command=lambda: CS2.workshop("atticCasual"))
+    WS_atticCasual_button.pack()
+
+    WS_themetroCasual_button = tk.Button(Bomb_frame, text="Casual The Metro", command=lambda: CS2.workshop("themetroCasual"))
+    WS_themetroCasual_button.pack()
+
+    WS_cacheCasual_button = tk.Button(Bomb_frame, text="Casual Cache", command=lambda: CS2.workshop("cacheCasual"))
+    WS_cacheCasual_button.pack()
+
+    WS_incaCasual_button = tk.Button(Bomb_frame, text="Casual Inca", command=lambda: CS2.workshop("incaCasual"))
+    WS_incaCasual_button.pack()
+    
+    WS_sparityCasual_button = tk.Button(Bomb_frame, text="Casual Sparity", command=lambda: CS2.workshop("sparityCasual"))
+    WS_sparityCasual_button.pack()
+
+    WS_basaltCasual_button = tk.Button(Bomb_frame, text="Casual Basalt", command=lambda: CS2.workshop("basaltCasual"))
+    WS_basaltCasual_button.pack()
+
+    WS_zooCasual_button = tk.Button(Bomb_frame, text="Casual Zoo", command=lambda: CS2.workshop("zooCasual"))
+    WS_zooCasual_button.pack()
+
+    WS_tuscanCasual_button = tk.Button(Bomb_frame, text="Casual Tuscan", command=lambda: CS2.workshop("tuscanCasual"))
+    WS_tuscanCasual_button.pack()
+
+    WS_rainfallCasual_button = tk.Button(Bomb_frame, text="Casual Rainfall", command=lambda: CS2.workshop("rainfallCasual"))
+    WS_rainfallCasual_button.pack()
+
+    WS_lighthouseCasual_button = tk.Button(Bomb_frame, text="Casual Lighthouse", command=lambda: CS2.workshop("lighthouseCasual"))
+    WS_lighthouseCasual_button.pack()
+
+
+
+    #HOSTAGE
+    WS_rushCasual_button = tk.Button(Hostage_frame, text="Casual Rush", command=lambda: CS2.workshop("rushCasual"))
+    WS_rushCasual_button.pack()
+
+    WS_safehouseCasual_button = tk.Button(Hostage_frame, text="Casual Safehouse", command=lambda: CS2.workshop("safehouseCasual"))
+    WS_safehouseCasual_button.pack()
+
+    WS_minecraftCasual_button = tk.Button(Hostage_frame, text="Casual Minecraft", command=lambda: CS2.workshop("minecraftCasual"))
+    WS_minecraftCasual_button.pack()
+
+    WS_damCasual_button = tk.Button(Hostage_frame, text="Casual Dam", command=lambda: CS2.workshop("damCasual"))
+    WS_damCasual_button.pack()
+
+    WS_assaultCasual_button = tk.Button(Hostage_frame, text="Casual Assault", command=lambda: CS2.workshop("assaultCasual"))
+    WS_assaultCasual_button.pack()
+
+    WS_rainbow6Casual_button = tk.Button(Hostage_frame, text="Casual Rainbow6", command=lambda: CS2.workshop("rainbow6Casual"))
+    WS_rainbow6Casual_button.pack()
+
+    WS_militiaCasual_button = tk.Button(Hostage_frame, text="Casual Militia", command=lambda: CS2.workshop("militiaCasual"))
+    WS_militiaCasual_button.pack()
+
+    WS_hijackCasual_button = tk.Button(Hostage_frame, text="Casual HiJack", command=lambda: CS2.workshop("hijackCasual"))
+    WS_hijackCasual_button.pack()
+
+    WS_climbCasual_button = tk.Button(Hostage_frame, text="Casual Climb", command=lambda: CS2.workshop("climbCasual"))
+    WS_climbCasual_button.pack()
+
+    WS_agencyCasual_button = tk.Button(Hostage_frame, text="Casual Agency", command=lambda: CS2.workshop("agencyCasual"))
+    WS_agencyCasual_button.pack()
+
+    WS_paris2024Casual_button = tk.Button(Hostage_frame, text="Casual Paris2024", command=lambda: CS2.workshop("paris2024Casual"))
+    WS_paris2024Casual_button.pack()
+
+
+
+    #ARMSRACE
+    WS_lunacyArms_button = tk.Button(Armsrace_frame, text="Arms Lunacy", command=lambda: CS2.workshop("lunacyArms"))
+    WS_lunacyArms_button.pack()
+
+    #WS_planeArms_button = tk.Button(Armsrace_frame, text="Arms Plane", command=lambda: CS2.workshop("planeArms"))
+    #WS_planeArms_button.pack()
+
+    WS_monasteryArms_button = tk.Button(Armsrace_frame, text="Arms Monastery", command=lambda: CS2.workshop("monasteryArms"))
+    WS_monasteryArms_button.pack()
+
+    WS_stmarcArms_button = tk.Button(Armsrace_frame, text="Arms StMarc", command=lambda: CS2.workshop("stmarcArms"))
+    WS_stmarcArms_button.pack()
+
+    WS_stairsarms_button = tk.Button(Armsrace_frame, text="Arms Stairs", command=lambda: CS2.workshop("stairsArms"))
+    WS_stairsarms_button.pack()
+
+    WS_churchesArms_button = tk.Button(Armsrace_frame, text="Arms Churches", command=lambda: CS2.workshop("churchesArms"))
+    WS_churchesArms_button.pack()
+
+    WS_pooldayArms_button = tk.Button(Armsrace_frame, text="Arms PoolDay", command=lambda: CS2.workshop("pooldayArms"))
+    WS_pooldayArms_button.pack()
+
+    WS_speedballArms_button = tk.Button(Armsrace_frame, text="Arms Speedball", command=lambda: CS2.workshop("speedballArms"))
+    WS_speedballArms_button.pack()
+
+
+
+    #DEATHMATCH
+    WS_omahabeachDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch OmhaBeach", command=lambda: CS2.workshop("omahabeachDeathmatch"))
+    WS_omahabeachDeathmatch_button.pack()
+    
+    WS_astraDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Astra", command=lambda: CS2.workshop("astraDeathmatch"))
+    WS_astraDeathmatch_button.pack()
+
+    WS_haloDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Halo", command=lambda: CS2.workshop("haloDeathmatch"))
+    WS_haloDeathmatch_button.pack()
+
+    WS_breadwindowDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch breadwindow", command=lambda: CS2.workshop("breadwindowDeathmatch"))
+    WS_breadwindowDeathmatch_button.pack()
+
+    WS_eternalDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Eternal", command=lambda: CS2.workshop("eternalDeathmatch"))
+    WS_eternalDeathmatch_button.pack()
+
+    WS_mansionDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Mansion", command=lambda: CS2.workshop("mansionDeathmatch"))
+    WS_mansionDeathmatch_button.pack()
+    
+    WS_airealityDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch AIReality", command=lambda: CS2.workshop("airealityDeathmatch"))
+    WS_airealityDeathmatch_button.pack()
+
+    WS_lighthouseDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Lighthouse", command=lambda: CS2.workshop("lighthouseDeathmatch"))
+    WS_lighthouseDeathmatch_button.pack()
+
+
+
+    
 
     #WS_minimirage_button = tk.Button(window, text="Minimirage", command=lambda: CS2.workshop("minimirage"))
     #WS_minimirage_button.pack()
 
-    WS_minecraft_button = tk.Button(window, text="Hostage Minecraft", command=lambda: CS2.workshop("minecraft"))
-    WS_minecraft_button.grid(row=6, column=0)
-
     #WS_rustdeath_button = tk.Button(window, text="Rust Deathmatch", command=lambda: CS2.workshop("rustdeath"))
     #WS_rustdeath_button.pack()
-
-    WS_blackgold_button = tk.Button(window, text="Casual Black Gold", command=lambda: CS2.workshop("blackgold"))
-    WS_blackgold_button.grid(row=7, column=0)
-
-    WS_lake_button = tk.Button(window, text="Bomb Lake", command=lambda: CS2.workshop("lake"))
-    WS_lake_button.grid(row=8, column=0)
 
     #WS_2towers_button = tk.Button(window, text="Two Towers", command=lambda: CS2.workshop("2towers"))
     #WS_2towers_button.pack()
@@ -267,96 +426,11 @@ def workshop_map():
     #WS_nuketown_button = tk.Button(window, text="Nuketown", command=lambda: CS2.workshop("nuketown"))
     #WS_nuketown_button.pack()
 
-    WS_dam_button = tk.Button(window, text="Hostage Dam", command=lambda: CS2.workshop("dam"))
-    WS_dam_button.grid(row=9, column=0)
-
-    WS_bank_button = tk.Button(window, text="Bomb Bank", command=lambda: CS2.workshop("bank"))
-    WS_bank_button.grid(row=10, column=0)
-
-    WS_bikinibottom_button = tk.Button(window, text="Bomb BikiniBottom", command=lambda: CS2.workshop("bikinibottom"))
-    WS_bikinibottom_button.grid(row=11, column=0)
-
-    WS_plane_button = tk.Button(window, text="Bomb Plane", command=lambda: CS2.workshop("plane"))
-    WS_plane_button.grid(row=12, column=0)
-
-    WS_stmarc_button = tk.Button(window, text="Bomb StMarc", command=lambda: CS2.workshop("stmarc"))
-    WS_stmarc_button.grid(row=13, column=0)
-
-    WS_assault_button = tk.Button(window, text="Hostage Assault", command=lambda: CS2.workshop("assault"))
-    WS_assault_button.grid(row=14, column=0)
-
-    WS_sugarcane_button = tk.Button(window, text="Bomb SugarCane", command=lambda: CS2.workshop("sugarcane"))
-    WS_sugarcane_button.grid(row=15, column=0)
-
     #WS_chickens_button = tk.Button(window, text="Bomb Chickens", command=lambda: CS2.workshop("chickens"))
     #WS_chickens_button.grid(row=16, column=0)
 
-    WS_rainbow6_button = tk.Button(window, text="Hostage Rainbow6", command=lambda: CS2.workshop("rainbow6"))
-    WS_rainbow6_button.grid(row=17, column=0)
-
-    WS_militia_button = tk.Button(window, text="Hostage Militia", command=lambda: CS2.workshop("militia"))
-    WS_militia_button.grid(row=18, column=0)
-
-    WS_astra_button = tk.Button(window, text="Bomb Astra", command=lambda: CS2.workshop("astra"))
-    WS_astra_button.grid(row=19, column=0)
-
-    WS_glass_button = tk.Button(window, text="Casual Glass", command=lambda: CS2.workshop("glass"))
-    WS_glass_button.grid(row=20, column=0)
-
-    WS_maginot_button = tk.Button(window, text="Bomb Maginot", command=lambda: CS2.workshop("maginot"))
-    WS_maginot_button.grid(row=21, column=0)
-    
-    WS_palais_button = tk.Button(window, text="Bomb Palais", command=lambda: CS2.workshop("palais"))
-    WS_palais_button.grid(row=22, column=0)
-
-    WS_omahabeach_button = tk.Button(window, text="Bomb OmhaBeach", command=lambda: CS2.workshop("omahabeach"))
-    WS_omahabeach_button.grid(row=23, column=0)
-    
-
-    #ARMSRACE
-    WS_lunacy_button = tk.Button(window, text="Arms Lunacy", command=lambda: CS2.workshop("lunacy"))
-    WS_lunacy_button.grid(row=2, column=1)
-
-    #WS_planearms_button = tk.Button(window, text="Plane Armsrace", command=lambda: CS2.workshop("planearms"))
-    #WS_planearms_button.pack()
-
-    WS_monastery_button = tk.Button(window, text="Arms Monastery", command=lambda: CS2.workshop("monastery"))
-    WS_monastery_button.grid(row=3, column=1)
-
-    WS_stmarcarms_button = tk.Button(window, text="Arms StMarc", command=lambda: CS2.workshop("stmarcarms"))
-    WS_stmarcarms_button.grid(row=4, column=1)
-
-    
-    WS_stairsarms_button = tk.Button(window, text="Arms Stairs", command=lambda: CS2.workshop("stairsarms"))
-    WS_stairsarms_button.grid(row=5, column=1)
-
-    WS_churchesarms_button = tk.Button(window, text="Arms Churches", command=lambda: CS2.workshop("churchesarms"))
-    WS_churchesarms_button.grid(row=6, column=1)
-
-    WS_poolday_button = tk.Button(window, text="Arms PoolDay", command=lambda: CS2.workshop("pooldayarms"))
-    WS_poolday_button.grid(row=7, column=1)
-
-
-    #Deathmatch
-
-    WS_omahabeachdeath_button = tk.Button(window, text="Deathmatch OmhaBeach", command=lambda: CS2.workshop("omahabeachdeath"))
-    WS_omahabeachdeath_button.grid(row=2, column=3)
-    
-    WS_astradeath_button = tk.Button(window, text="Deathmatch Astra", command=lambda: CS2.workshop("astradeath"))
-    WS_astradeath_button.grid(row=3, column=3)
-
-    WS_halodeath_button = tk.Button(window, text="Deathmatch Halo", command=lambda: CS2.workshop("halodeath"))
-    WS_halodeath_button.grid(row=4, column=3)
-
-    WS_breadwindowDeathmatch_button = tk.Button(window, text="Deathmatch breadwindow", command=lambda: CS2.workshop("breadwindowDeathmatch"))
-    WS_breadwindowDeathmatch_button.grid(row=5, column=3)
-
-    #1PM
-    WS_blackgold1pm_button = tk.Button(window, text="Black Gold 1PM", command=lambda: CS2.workshop("blackgold1pm"))
-    WS_blackgold1pm_button.grid(row=2, column=4)
-    
-    WS_train_button = tk.Button(window, text="Bomb Train", command=lambda: CS2.workshop("train"))
-    WS_train_button.grid(row=3, column=4)
+    #WS_glass_button = tk.Button(window, text="Casual Glass", command=lambda: CS2.workshop("glass"))
+    #WS_glass_button.grid(row=20, column=0)
 
     #WS_turbulence_button = tk.Button(window, text="Flying Scotsman Turbulence", command=lambda: CS2.workshop("turbulence"))
     #WS_turbulence_button.grid(row=4, column=4)
@@ -364,68 +438,17 @@ def workshop_map():
     #WS_invasion_button = tk.Button(window, text="Arms Invasion", command=lambda: CS2.workshop("invasionarms"))
     #WS_invasion_button.grid(row=5, column=4)
 
-    WS_attic_button = tk.Button(window, text="Bomb Attic", command=lambda: CS2.workshop("attic"))
-    WS_attic_button.grid(row=4, column=4)
-   
-    WS_hijack_button = tk.Button(window, text="Hostage HiJack", command=lambda: CS2.workshop("hijack"))
-    WS_hijack_button.grid(row=5, column=4)
-
     #WS_mirage45_button = tk.Button(window, text="Mirage 45", command=lambda: CS2.workshop("mirage45"))
     #WS_mirage45_button.grid(row=7, column=4)
 
-    WS_themetro_button = tk.Button(window, text="Bomb The Metro", command=lambda: CS2.workshop("themetro"))
-    WS_themetro_button.grid(row=6, column=4)
+    #WS_futsal_button = tk.Button(window, text="Football Futsal", command=lambda: CS2.workshop("futsal"))
+    #WS_futsal_button.grid(row=10, column=4)
 
-    WS_cache_button = tk.Button(window, text="Bomb Cache", command=lambda: CS2.workshop("cache"))
-    WS_cache_button.grid(row=7, column=4)
-
-    WS_inca_button = tk.Button(window, text="Bomb Inca", command=lambda: CS2.workshop("inca"))
-    WS_inca_button.grid(row=8, column=4)
     
-    WS_sparity_button = tk.Button(window, text="Bomb Sparity", command=lambda: CS2.workshop("sparity"))
-    WS_sparity_button.grid(row=9, column=4)
 
-    WS_futsal_button = tk.Button(window, text="Football Futsal", command=lambda: CS2.workshop("futsal"))
-    WS_futsal_button.grid(row=10, column=4)
-
-    WS_basalt_button = tk.Button(window, text="Bomb Basalt", command=lambda: CS2.workshop("basalt"))
-    WS_basalt_button.grid(row=11, column=4)
-
-    WS_zoo_button = tk.Button(window, text="Bomb Zoo", command=lambda: CS2.workshop("zoo"))
-    WS_zoo_button.grid(row=12, column=4)
-
-    WS_eternal_button = tk.Button(window, text="Deathmatch Eternal", command=lambda: CS2.workshop("eternal"))
-    WS_eternal_button.grid(row=13, column=4)
-
-    WS_mansion_button = tk.Button(window, text="Deathmatch Mansion", command=lambda: CS2.workshop("mansion"))
-    WS_mansion_button.grid(row=14, column=4)
     
-    WS_aireality_button = tk.Button(window, text="Deathmatch AIReality", command=lambda: CS2.workshop("aireality"))
-    WS_aireality_button.grid(row=15, column=4)
 
-    WS_speedball_button = tk.Button(window, text="Arms Speedball", command=lambda: CS2.workshop("speedball"))
-    WS_speedball_button.grid(row=16, column=4)
-
-    WS_tuscan_button = tk.Button(window, text="Bomb Tuscan", command=lambda: CS2.workshop("tuscan"))
-    WS_tuscan_button.grid(row=17, column=4)
-
-    WS_rainfall_button = tk.Button(window, text="Bomb Rainfall", command=lambda: CS2.workshop("rainfall"))
-    WS_rainfall_button.grid(row=18, column=4)
-
-    WS_climb_button = tk.Button(window, text="Hostage Climb", command=lambda: CS2.workshop("climb"))
-    WS_climb_button.grid(row=19, column=4)
-
-    WS_lighthousebomb_button = tk.Button(window, text="Bomb Lighthouse", command=lambda: CS2.workshop("lighthousebomb"))
-    WS_lighthousebomb_button.grid(row=20, column=4)
-
-    WS_lighthouse_button = tk.Button(window, text="Deathmatch Lighthouse", command=lambda: CS2.workshop("lighthouse"))
-    WS_lighthouse_button.grid(row=21, column=4)
-
-    WS_agency_button = tk.Button(window, text="Hostage Agency", command=lambda: CS2.workshop("agency"))
-    WS_agency_button.grid(row=22, column=4)
-
-    WS_paris2024_button = tk.Button(window, text="Hostage Paris2024", command=lambda: CS2.workshop("paris2024"))
-    WS_paris2024_button.grid(row=23, column=4)
+    
 
 def respawn_on_death():
     for widget in window.winfo_children():

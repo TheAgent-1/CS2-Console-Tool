@@ -21,13 +21,33 @@ dropdown_var.set("Casual")  # default value
 dropdown_menu = tk.OptionMenu(window, dropdown_var, "Casual", "Arms Race", "Deathmatch", "Survival")
 dropdown_menu.pack(pady=5)
 
+label4 = tk.Label(window, text="Casual Mode:")
+label4.pack(pady=5)
+dropdown2_var = tk.StringVar(window)
+dropdown2_var.set("Bomb")  # default value
+dropdown2_menu = tk.OptionMenu(window, dropdown2_var, "Bomb", "Hostage")
+dropdown2_menu.pack(pady=5)
+
 def generate_code():
     map_name = textbox1.get()
     map_code = textbox2.get()
     game_mode = dropdown_var.get()
+    casual_mode = dropdown2_var.get()
     
-    button_code = f'WS_{map_name}{game_mode}_button = tk.Button(window, text="{game_mode} {map_name}", command=lambda: CS2.workshop("{map_name}{game_mode}"))\nWS_{map_name}{game_mode}_button.grid(row=0, column=0)'
-    backend_code = f'case "{map_name}{game_mode}":\n    CS2.send_command_to_CS2("game_alias {game_mode.lower()}")\n    CS2.send_command_to_CS2("host_workshop_map {map_code}")'
+    frame_mapping = {
+        "Casual": {"Bomb": "Bomb_frame", "Hostage": "Hostage_frame"},
+        "Arms Race": "Armsrace_frame",
+        "Deathmatch": "Deathmatch_frame"
+    }
+    
+    frame = frame_mapping.get(game_mode, "window")
+    if isinstance(frame, dict):
+        frame = frame.get(casual_mode, "window")
+    
+    display_game_mode = "Arms" if game_mode == "Arms Race" else game_mode
+    
+    button_code = f'WS_{map_name}{display_game_mode}_button = tk.Button({frame}, text="{display_game_mode} {map_name}", command=lambda: CS2.workshop("{map_name}{display_game_mode}"))\nWS_{map_name}{display_game_mode}_button.pack()'
+    backend_code = f'case "{map_name}{display_game_mode}":\n    CS2.send_command_to_CS2("game_alias {game_mode.lower().replace(" ", "")}")\n    CS2.send_command_to_CS2("host_workshop_map {map_code}")'
     
     textbox3.config(state=tk.NORMAL)
     textbox3.delete(1.0, tk.END)
