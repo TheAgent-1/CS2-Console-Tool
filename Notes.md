@@ -19,8 +19,8 @@ The program creates a GUI application using the `tkinter` library to generate co
 For a map named "Test" with a game mode of "Casual" and a map code of "111":
 - **Button Code**:
   ```python
-  WS_TestCasual_button = tk.Button(window, text="Casual Test", command=lambda: CS2.workshop("TestCasual"))
-  WS_TestCasual_button.grid(row=0, column=0)
+  WS_TestCasual_button = tk.Button(Test_frame, text="Casual Test", command=lambda: CS2.workshop("TestCasual"))
+  WS_TestCasual_button.pack()
   ```
 - **Backend Code**:
   ```python

@@ -72,7 +72,4 @@ label5.pack(pady=5)
 textbox4 = tk.Text(window, height=6, width=120, state=tk.DISABLED)
 textbox4.pack(pady=5)
 
-validation_label = tk.Label(window, text="Please validate the code and make adjustments to the rows and columns as needed.")
-validation_label.pack(pady=10)
-
 window.mainloop()
