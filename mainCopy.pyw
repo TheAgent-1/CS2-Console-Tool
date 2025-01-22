@@ -392,8 +392,8 @@ def workshop_map():
     WS_haloDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Halo", command=lambda: CS2.workshop("haloDeathmatch"))
     WS_haloDeathmatch_button.pack()
 
-    WS_breadwindowDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch breadwindow", command=lambda: CS2.workshop("breadwindowDeathmatch"))
-    WS_breadwindowDeathmatch_button.pack()
+    WS_BreadwindowDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Breadwindow", command=lambda: CS2.workshop("BreadwindowDeathmatch"))
+    WS_BreadwindowDeathmatch_button.pack()
 
     WS_eternalDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Eternal", command=lambda: CS2.workshop("eternalDeathmatch"))
     WS_eternalDeathmatch_button.pack()
