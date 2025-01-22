@@ -407,6 +407,8 @@ def workshop_map():
     WS_lighthouseDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch Lighthouse", command=lambda: CS2.workshop("lighthouseDeathmatch"))
     WS_lighthouseDeathmatch_button.pack()
 
+    WS_DollsHouseDeathmatch_button = tk.Button(Deathmatch_frame, text="Deathmatch DollsHouse", command=lambda: CS2.workshop("DollsHouseDeathmatch"))
+    WS_DollsHouseDeathmatch_button.pack()
 
 
     #REMOVED
