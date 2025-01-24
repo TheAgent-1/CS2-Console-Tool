@@ -312,6 +312,9 @@ class CS2:
             case "lighthouseCasual":
                 CS2.send_command_to_CS2("game_alias casual")
                 CS2.send_command_to_CS2("host_workshop_map 3342529755")
+            case "RefuseCasual":
+                CS2.send_command_to_CS2("game_alias casual")
+                CS2.send_command_to_CS2("host_workshop_map 3294609675")
 
 
 
@@ -460,6 +463,12 @@ class CS2:
     def kick(player):
         CS2.send_command_to_CS2("sv_kick_ban_duration 3")
         CS2.send_command_to_CS2("kick Melben")
+
+    def ban(player):
+        import random
+        randint = random.randint(1, 10)
+        #print("banid {} 1573991913".format(randint))
+        CS2.send_command_to_CS2("banid {} 1573991913".format(randint))
 
     def start_server():
         import secrets

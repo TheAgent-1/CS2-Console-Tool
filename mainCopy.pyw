@@ -4,6 +4,7 @@ from tkinter import messagebox
 from tkinter import PhotoImage
 from CS2Copy import CS2
 
+user = ""
 
 window = tk.Tk()
 result_variable = tk.StringVar()
@@ -51,17 +52,20 @@ def login():
     window.mainloop()
 
 def login_check(username, password):
+    global user
     users = {
     'server': 'server',
     'Jacob': 'Gh0s7!',
     'Chris': 'Chris',
     'Jonno': 'Jonno13',
+    'Nuclear': 'option',
     'test': ''
     }
 
     if username in users and users[username] == password:
         messagebox.showinfo("Login Successful", f"Welcome, {username}!")
         CS2.start_flask1(username)
+        user = username
         main()
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
@@ -320,6 +324,9 @@ def workshop_map():
     WS_lighthouseCasual_button = tk.Button(Bomb_frame, text="Casual Lighthouse", command=lambda: CS2.workshop("lighthouseCasual"))
     WS_lighthouseCasual_button.pack()
 
+    WS_RefuseCasual_button = tk.Button(Bomb_frame, text="Casual Refuse", command=lambda: CS2.workshop("RefuseCasual"))
+    WS_RefuseCasual_button.pack()
+
 
 
     #HOSTAGE
@@ -518,14 +525,19 @@ def custom_execute(mode_var, map_var, AI_var, wait_label):
     #do button stuff here eg. if btn pressed get values
 
 def kick_player():
+    global user
     for widget in window.winfo_children():
         widget.destroy()
 
     Back_button = tk.Button(window, text="Back", command=main)
     Back_button.pack()
 
-    kick = tk.Button(window, text="3 minute ban", command=lambda: CS2.kick("Melben"))
+    kick = tk.Button(window, text="Kick Melben", command=lambda: CS2.kick("Melben"))
     kick.pack()
+
+    if user == 'Nuclear':
+        Ban_Button = tk.Button(window, text="Ban Melben", command=lambda: CS2.ban("Melben"))
+        Ban_Button.pack()
 
 def startup():
     for widget in window.winfo_children():
