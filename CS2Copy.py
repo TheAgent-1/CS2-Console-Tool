@@ -409,6 +409,9 @@ class CS2:
             case "DollsHouseDeathmatch":
                 CS2.send_command_to_CS2("game_alias deathmatch")
                 CS2.send_command_to_CS2("host_workshop_map 3073384529")
+            case "LakeDeathmatch":
+                CS2.send_command_to_CS2("game_alias deathmatch")
+                CS2.send_command_to_CS2("host_workshop_map 3070563536")    
 
 
             #REMOVED
