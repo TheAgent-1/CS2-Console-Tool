@@ -5,24 +5,36 @@ from tkinter import PhotoImage
 from CS2Copy import CS2
 
 user = ""
-
 window = tk.Tk()
 result_variable = tk.StringVar()
 
-base_path = os.path.join(os.path.dirname(__file__), "assets")
+windowSize = "670x800"
 
-Ancient = PhotoImage(file=os.path.join(base_path, "Ancient.png")).subsample(2, 2)
-Anubis = PhotoImage(file=os.path.join(base_path, "Anubis.png")).subsample(2, 2)
-Dust2 = PhotoImage(file=os.path.join(base_path, "Dust2.png")).subsample(2, 2)
-Inferno = PhotoImage(file=os.path.join(base_path, "Inferno.png")).subsample(2, 2)
-Italy = PhotoImage(file=os.path.join(base_path, "Italy.png")).subsample(2, 2)
-Mirage = PhotoImage(file=os.path.join(base_path, "Mirage.png")).subsample(2, 2)
-Nuke = PhotoImage(file=os.path.join(base_path, "Nuke.png")).subsample(2, 2)
-Office = PhotoImage(file=os.path.join(base_path, "Office.png")).subsample(2, 2)
-Overpass = PhotoImage(file=os.path.join(base_path, "Overpass.png")).subsample(2, 2)
-Vertigo = PhotoImage(file=os.path.join(base_path, "Vertigo.png")).subsample(2, 2)
-Baggage = PhotoImage(file=os.path.join(base_path, "Baggage.png")).subsample(9, 9)
-Shoots = PhotoImage(file=os.path.join(base_path, "Shoots.png")).subsample(9, 9)
+base_path = os.path.join(os.path.dirname(__file__), "assets2")
+
+Agency = PhotoImage(file=os.path.join(base_path, "Agency.png")).subsample(4, 4)
+Ancient = PhotoImage(file=os.path.join(base_path, "Ancient.png")).subsample(4, 4)
+AncientNight = PhotoImage(file=os.path.join(base_path, "AncientNight.png")).subsample(4, 4)
+Anubis = PhotoImage(file=os.path.join(base_path, "Anubis.png")).subsample(4, 4)
+Baggage = PhotoImage(file=os.path.join(base_path, "Baggage.png")).subsample(4, 4)
+Brewery = PhotoImage(file=os.path.join(base_path, "Brewery.png")).subsample(4, 4)
+Dogtown = PhotoImage(file=os.path.join(base_path, "Dogtown.png")).subsample(4, 4)
+Dust2 = PhotoImage(file=os.path.join(base_path, "Dust2.png")).subsample(4, 4)
+Grail = PhotoImage(file=os.path.join(base_path, "Grail.png")).subsample(4, 4)
+Inferno = PhotoImage(file=os.path.join(base_path, "Inferno.png")).subsample(4, 4)
+Italy = PhotoImage(file=os.path.join(base_path, "Italy.png")).subsample(4, 4)
+Jura = PhotoImage(file=os.path.join(base_path, "Jura.png")).subsample(4, 4)
+Mirage = PhotoImage(file=os.path.join(base_path, "Mirage.png")).subsample(4, 4)
+Nuke = PhotoImage(file=os.path.join(base_path, "Nuke.png")).subsample(4, 4)
+Office = PhotoImage(file=os.path.join(base_path, "Office.png")).subsample(4, 4)
+Overpass = PhotoImage(file=os.path.join(base_path, "Overpass.png")).subsample(4, 4)
+PoolDay = PhotoImage(file=os.path.join(base_path, "PoolDay.png")).subsample(4, 4)
+Shoots = PhotoImage(file=os.path.join(base_path, "Shoots.png")).subsample(4, 4)
+ShootsNight = PhotoImage(file=os.path.join(base_path, "ShootsNight.png")).subsample(4, 4)
+Train = PhotoImage(file=os.path.join(base_path, "Train.png")).subsample(4, 4)
+Vertigo = PhotoImage(file=os.path.join(base_path, "Vertigo.png")).subsample(4, 4)
+
+
 
 
 def login():
@@ -70,11 +82,10 @@ def login_check(username, password):
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 
-
 def main():
     
     window.title("CS2 GUI")
-    window.geometry("620x800") # Add this line to set the window size
+    window.geometry(windowSize) # Add this line to set the window size
 
     for widget in window.winfo_children():
         widget.destroy()
@@ -105,8 +116,6 @@ def main():
 
     logout_button = tk.Button(window, text="Log Out", command=login)
     logout_button.pack()
-
-    
 
 def bot_commands():
     for widget in window.winfo_children():
@@ -172,43 +181,72 @@ def change_map():
     Back_button.grid(row=0, column=3)
     
     # ROW 1
+    Agency_button = tk.Button(window, text="Agency", image=Agency, command=lambda:CS2.change_map("Agency"))
+    Agency_button.grid(row=1, column=1)
+
     Ancient_button = tk.Button(window, text="Ancient", image=Ancient, command=lambda: CS2.change_map("Ancient"))
-    Ancient_button.grid(row=1, column=1)
+    Ancient_button.grid(row=1, column=2)
+
+    AncientNight_button = tk.Button(window, text="AncientNight", image=AncientNight, command=lambda: CS2.change_map("AncientNight"))
+    AncientNight_button.grid(row=1, column=3)
 
     Anubis_button = tk.Button(window, text="Anubis", image=Anubis, command=lambda: CS2.change_map("Anubis"))
-    Anubis_button.grid(row=1, column=2)
+    Anubis_button.grid(row=1, column=4)
 
-    Dust2_button = tk.Button(window, text="Dust2", image=Dust2, command=lambda: CS2.change_map("Dust2"))
-    Dust2_button.grid(row=1, column=3)
-
-    Inferno_button = tk.Button(window, text="Inferno", image=Inferno, command=lambda: CS2.change_map("Inferno"))
-    Inferno_button.grid(row=1, column=4)
-
-    Italy_button = tk.Button(window, text="Italy", image=Italy, command=lambda: CS2.change_map("Italy"))
-    Italy_button.grid(row=1, column=5)
+    Baggage_button = tk.Button(window, text="Baggage", image=Baggage, command=lambda: CS2.change_map("Baggage"))
+    Baggage_button.grid(row=1, column=5)
 
     # ROW 2
-    Mirage_button = tk.Button(window, text="Mirage", image=Mirage, command=lambda: CS2.change_map("Mirage"))
-    Mirage_button.grid(row=2, column=1)
+    Brewery_button = tk.Button(window, text="Brewery", image=Brewery, command=lambda: CS2.change_map("Brewery"))
+    Brewery_button.grid(row=2, column=1)
 
-    Nuke_button = tk.Button(window, text="Nuke", image=Nuke, command=lambda: CS2.change_map("Nuke"))
-    Nuke_button.grid(row=2, column=2)
+    Dogtown_button = tk.Button(window, text="Dogtown", image=Dogtown, command=lambda: CS2.change_map("Dogtown"))
+    Dogtown_button.grid(row=2, column=2)
 
-    Office_button = tk.Button(window, text="Office", image=Office, command=lambda: CS2.change_map("Office"))
-    Office_button.grid(row=2, column=3)
+    Dust2_button = tk.Button(window, text="Dust2", image=Dust2, command=lambda: CS2.change_map("Dust2"))
+    Dust2_button.grid(row=2, column=3)
 
-    Overpass_button = tk.Button(window, text="Overpass", image=Overpass, command=lambda: CS2.change_map("Overpass"))
-    Overpass_button.grid(row=2, column=4)
+    Grail_button = tk.Button(window, text="Grail", image=Grail, command=lambda: CS2.change_map("Grail"))
+    Grail_button.grid(row=2, column=4)
 
-    Vertigo_button = tk.Button(window, text="Vertigo", image=Vertigo, command=lambda: CS2.change_map("Vertigo"))
-    Vertigo_button.grid(row=2, column=5)
+    Inferno_button = tk.Button(window, text="Inferno", image=Inferno, command=lambda: CS2.change_map("Inferno"))
+    Inferno_button.grid(row=2, column=5)
 
     # ROW 3
-    Baggage_button = tk.Button(window, text="Baggage", image=Baggage, command=lambda: CS2.change_map("Baggage"))
-    Baggage_button.grid(row=3, column=1)
+    Italy_button = tk.Button(window, text="Italy", image=Italy, command=lambda: CS2.change_map("Italy"))
+    Italy_button.grid(row=3, column=1)
+
+    Jura_button = tk.Button(window, text="Jura", image=Jura, command=lambda: CS2.change_map("Jura"))
+    Jura_button.grid(row=3, column=2)
+
+    Mirage_button = tk.Button(window, text="Mirage", image=Mirage, command=lambda: CS2.change_map("Mirage"))
+    Mirage_button.grid(row=3, column=3)
+
+    Nuke_button = tk.Button(window, text="Nuke", image=Nuke, command=lambda: CS2.change_map("Nuke"))
+    Nuke_button.grid(row=3, column=4)
+
+    Office_button = tk.Button(window, text="Office", image=Office, command=lambda: CS2.change_map("Office"))
+    Office_button.grid(row=3, column=5)
+
+    # ROW 4
+    Overpass_button = tk.Button(window, text="Overpass", image=Overpass, command=lambda: CS2.change_map("Overpass"))
+    Overpass_button.grid(row=4, column=1)
+
+    PoolDay_button = tk.Button(window, text="PoolDay", image=PoolDay, command=lambda: CS2.change_map("PoolDay"))
+    PoolDay_button.grid(row=4, column=2)
 
     Shoots_button = tk.Button(window, text="Shoots", image=Shoots, command=lambda: CS2.change_map("Shoots"))
-    Shoots_button.grid(row=3, column=2)
+    Shoots_button.grid(row=4, column=3)
+
+    ShootsNight_button = tk.Button(window, text="ShootsNight", image=ShootsNight, command=lambda: CS2.change_map("ShootsNight"))
+    ShootsNight_button.grid(row=4, column=4)
+
+    Train_button = tk.Button(window, text="Train", image=Train, command=lambda: CS2.change_map("Train"))
+    Train_button.grid(row=4, column=5)
+
+    # ROW 5
+    Vertigo_button = tk.Button(window, text="Vertigo", image=Vertigo, command=lambda: CS2.change_map("Vertigo"))
+    Vertigo_button.grid(row=5, column=1)
 
 def workshop_map():
     #Bomb - column=0
@@ -453,12 +491,6 @@ def workshop_map():
 
     #WS_futsal_button = tk.Button(window, text="Football Futsal", command=lambda: CS2.workshop("futsal"))
     #WS_futsal_button.grid(row=10, column=4)
-
-    
-
-    
-
-    
 
 def respawn_on_death():
     for widget in window.winfo_children():

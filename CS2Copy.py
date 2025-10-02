@@ -55,6 +55,15 @@ class CS2:
         if param_order.index("username") > param_order.index("string"):
             print('Bad data sent')
             return jsonify({'error': 'Bad data sent'}), 400
+        
+        if user_string == "!STATUS":
+            # Return the status of the server
+            # Check if the CS2 server is running
+            cs2_window = gw.getWindowsWithTitle("Counter-Strike 2")
+            if cs2_window:
+                # If the window is found, the server is running
+                return jsonify({'message': 'True', "username": username, "string": user_string}), 200
+
 
         # Return a response with the received data
         CS2.send_command_to_CS2(user_string)
@@ -211,16 +220,30 @@ class CS2:
 
     def change_map(map):
         match map:
+            case "Agency":
+                CS2.send_command_to_CS2("changelevel cs_agency")
             case "Ancient":
                 CS2.send_command_to_CS2("changelevel de_ancient")
+            case "AncientNight":
+                CS2.send_command_to_CS2("changelevel de_ancient_night")
             case "Anubis":
                 CS2.send_command_to_CS2("changelevel de_anubis")
+            case "Baggage":
+                CS2.send_command_to_CS2("changelevel ar_baggage")
+            case "Brewery":
+                CS2.send_command_to_CS2("changelevel de_brewery")
+            case "Dogtown":
+                CS2.send_command_to_CS2("changelevel de_dogtown")
             case "Dust2":
                 CS2.send_command_to_CS2("changelevel de_dust2")
+            case "Grail":
+                CS2.send_command_to_CS2("changelevel de_grail")
             case "Inferno":
                 CS2.send_command_to_CS2("changelevel de_inferno")
             case "Italy":
                 CS2.send_command_to_CS2("changelevel cs_italy")
+            case "Jura":
+                CS2.send_command_to_CS2("changelevel de_jura")
             case "Mirage":
                 CS2.send_command_to_CS2("changelevel de_mirage")
             case "Nuke":
@@ -229,12 +252,18 @@ class CS2:
                 CS2.send_command_to_CS2("changelevel cs_office")
             case "Overpass":
                 CS2.send_command_to_CS2("changelevel de_overpass")
-            case "Vertigo":
-                CS2.send_command_to_CS2("changelevel de_vertigo")
-            case "Baggage":
-                CS2.send_command_to_CS2("changelevel ar_baggage")
+            case "PoolDay":
+                CS2.send_command_to_CS2("changelevel ar_pool_day")
             case "Shoots":
                 CS2.send_command_to_CS2("changelevel ar_shoots")
+            case "ShootsNight":
+                CS2.send_command_to_CS2("changelevel ar_shoots_night")
+            case "Train":
+                CS2.send_command_to_CS2("changelevel de_train")
+            case "Vertigo":
+                CS2.send_command_to_CS2("changelevel de_vertigo")
+            
+            
 
     def workshop(WS_map):
         match WS_map:
