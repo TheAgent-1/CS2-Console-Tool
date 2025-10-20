@@ -220,52 +220,41 @@ class CS2:
 
     def change_map(map):
         match map:
-            case "Agency":
-                CS2.send_command_to_CS2("changelevel cs_agency")
             case "Ancient":
-                CS2.send_command_to_CS2("changelevel de_ancient")
+                CS2.send_command_to_CS2("map de_ancient")
             case "AncientNight":
-                CS2.send_command_to_CS2("changelevel de_ancient_night")
+                CS2.send_command_to_CS2("map de_ancient_night")
             case "Anubis":
-                CS2.send_command_to_CS2("changelevel de_anubis")
+                CS2.send_command_to_CS2("map de_anubis")
             case "Baggage":
-                CS2.send_command_to_CS2("changelevel ar_baggage")
-            case "Brewery":
-                CS2.send_command_to_CS2("changelevel de_brewery")
-            case "Dogtown":
-                CS2.send_command_to_CS2("changelevel de_dogtown")
+                CS2.send_command_to_CS2("map ar_baggage")
             case "Dust2":
-                CS2.send_command_to_CS2("changelevel de_dust2")
-            case "Grail":
-                CS2.send_command_to_CS2("changelevel de_grail")
+                CS2.send_command_to_CS2("map de_dust2")
             case "Inferno":
-                CS2.send_command_to_CS2("changelevel de_inferno")
+                CS2.send_command_to_CS2("map de_inferno")
             case "Italy":
-                CS2.send_command_to_CS2("changelevel cs_italy")
-            case "Jura":
-                CS2.send_command_to_CS2("changelevel de_jura")
+                CS2.send_command_to_CS2("map cs_italy")
             case "Mirage":
-                CS2.send_command_to_CS2("changelevel de_mirage")
+                CS2.send_command_to_CS2("map de_mirage")
             case "Nuke":
-                CS2.send_command_to_CS2("changelevel de_nuke")
+                CS2.send_command_to_CS2("map de_nuke")
             case "Office":
-                CS2.send_command_to_CS2("changelevel cs_office")
+                CS2.send_command_to_CS2("map cs_office")
             case "Overpass":
-                CS2.send_command_to_CS2("changelevel de_overpass")
-            case "PoolDay":
-                CS2.send_command_to_CS2("changelevel ar_pool_day")
+                CS2.send_command_to_CS2("map de_overpass")
             case "Shoots":
-                CS2.send_command_to_CS2("changelevel ar_shoots")
+                CS2.send_command_to_CS2("map ar_shoots")
             case "ShootsNight":
-                CS2.send_command_to_CS2("changelevel ar_shoots_night")
+                CS2.send_command_to_CS2("map ar_shoots_night")
             case "Train":
-                CS2.send_command_to_CS2("changelevel de_train")
+                CS2.send_command_to_CS2("map de_train")
             case "Vertigo":
-                CS2.send_command_to_CS2("changelevel de_vertigo")
+                CS2.send_command_to_CS2("map de_vertigo")
             
             
 
     def workshop(WS_map):
+        # PLEASE KEEP TO 25 MAPS PER GAMEMODE
         match WS_map:
 
             #BOMB

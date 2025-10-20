@@ -61,6 +61,8 @@ def login():
 
     login_button = tk.Button(login_frame, text="Login", command=lambda: login_check(entry_username.get(), entry_password.get()))
     login_button.pack(pady=10)
+
+    window.bind('<Return>', lambda event: login_check(entry_username.get(), entry_password.get()))
     window.mainloop()
 
 def login_check(username, password):
@@ -181,74 +183,61 @@ def change_map():
     Back_button.grid(row=0, column=3)
     
     # ROW 1
-    Agency_button = tk.Button(window, text="Agency", image=Agency, command=lambda:CS2.change_map("Agency"))
-    Agency_button.grid(row=1, column=1)
-
     Ancient_button = tk.Button(window, text="Ancient", image=Ancient, command=lambda: CS2.change_map("Ancient"))
-    Ancient_button.grid(row=1, column=2)
+    Ancient_button.grid(row=1, column=1)
 
     AncientNight_button = tk.Button(window, text="AncientNight", image=AncientNight, command=lambda: CS2.change_map("AncientNight"))
-    AncientNight_button.grid(row=1, column=3)
+    AncientNight_button.grid(row=1, column=2)
 
     Anubis_button = tk.Button(window, text="Anubis", image=Anubis, command=lambda: CS2.change_map("Anubis"))
-    Anubis_button.grid(row=1, column=4)
+    Anubis_button.grid(row=1, column=3)
 
     Baggage_button = tk.Button(window, text="Baggage", image=Baggage, command=lambda: CS2.change_map("Baggage"))
-    Baggage_button.grid(row=1, column=5)
-
-    # ROW 2
-    Brewery_button = tk.Button(window, text="Brewery", image=Brewery, command=lambda: CS2.change_map("Brewery"))
-    Brewery_button.grid(row=2, column=1)
-
-    Dogtown_button = tk.Button(window, text="Dogtown", image=Dogtown, command=lambda: CS2.change_map("Dogtown"))
-    Dogtown_button.grid(row=2, column=2)
+    Baggage_button.grid(row=1, column=4)
 
     Dust2_button = tk.Button(window, text="Dust2", image=Dust2, command=lambda: CS2.change_map("Dust2"))
-    Dust2_button.grid(row=2, column=3)
+    Dust2_button.grid(row=1, column=5)
 
-    Grail_button = tk.Button(window, text="Grail", image=Grail, command=lambda: CS2.change_map("Grail"))
-    Grail_button.grid(row=2, column=4)
-
+    # ROW 2
     Inferno_button = tk.Button(window, text="Inferno", image=Inferno, command=lambda: CS2.change_map("Inferno"))
-    Inferno_button.grid(row=2, column=5)
+    Inferno_button.grid(row=2, column=1)
 
-    # ROW 3
     Italy_button = tk.Button(window, text="Italy", image=Italy, command=lambda: CS2.change_map("Italy"))
-    Italy_button.grid(row=3, column=1)
-
-    Jura_button = tk.Button(window, text="Jura", image=Jura, command=lambda: CS2.change_map("Jura"))
-    Jura_button.grid(row=3, column=2)
+    Italy_button.grid(row=2, column=2)
 
     Mirage_button = tk.Button(window, text="Mirage", image=Mirage, command=lambda: CS2.change_map("Mirage"))
-    Mirage_button.grid(row=3, column=3)
+    Mirage_button.grid(row=2, column=3)
 
     Nuke_button = tk.Button(window, text="Nuke", image=Nuke, command=lambda: CS2.change_map("Nuke"))
-    Nuke_button.grid(row=3, column=4)
+    Nuke_button.grid(row=2, column=4)
 
     Office_button = tk.Button(window, text="Office", image=Office, command=lambda: CS2.change_map("Office"))
-    Office_button.grid(row=3, column=5)
+    Office_button.grid(row=2, column=5)
 
-    # ROW 4
+    # ROW 3
     Overpass_button = tk.Button(window, text="Overpass", image=Overpass, command=lambda: CS2.change_map("Overpass"))
-    Overpass_button.grid(row=4, column=1)
-
-    PoolDay_button = tk.Button(window, text="PoolDay", image=PoolDay, command=lambda: CS2.change_map("PoolDay"))
-    PoolDay_button.grid(row=4, column=2)
+    Overpass_button.grid(row=3, column=1)
 
     Shoots_button = tk.Button(window, text="Shoots", image=Shoots, command=lambda: CS2.change_map("Shoots"))
-    Shoots_button.grid(row=4, column=3)
+    Shoots_button.grid(row=3, column=2)
 
     ShootsNight_button = tk.Button(window, text="ShootsNight", image=ShootsNight, command=lambda: CS2.change_map("ShootsNight"))
-    ShootsNight_button.grid(row=4, column=4)
+    ShootsNight_button.grid(row=3, column=3)
 
     Train_button = tk.Button(window, text="Train", image=Train, command=lambda: CS2.change_map("Train"))
-    Train_button.grid(row=4, column=5)
+    Train_button.grid(row=3, column=4)
+
+    Vertigo_button = tk.Button(window, text="Vertigo", image=Vertigo, command=lambda: CS2.change_map("Vertigo"))
+    Vertigo_button.grid(row=3, column=5)
+    
+    # ROW 4
+    
 
     # ROW 5
-    Vertigo_button = tk.Button(window, text="Vertigo", image=Vertigo, command=lambda: CS2.change_map("Vertigo"))
-    Vertigo_button.grid(row=5, column=1)
-
+    
 def workshop_map():
+    # PLEASE KEEP TO 25 MAPS PER GAMEMODE
+
     #Bomb - column=0
     #Hostage - column=1
     #arms - column=3
