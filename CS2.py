@@ -495,11 +495,8 @@ class CS2:
 
     def start_server():
         import secrets
-        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-        project_folder = "CS2_tool"
-        subfolder_name = "startFiles"
 
-        folder_path = os.path.join(desktop_path, project_folder, subfolder_name)
+        folder_path = "./startFiles"
         print(f"Folder path: {folder_path}")
 
         StartFiles = [f for f in os.listdir(folder_path)]
