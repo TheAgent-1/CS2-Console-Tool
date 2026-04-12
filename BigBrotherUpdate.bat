@@ -1,4 +1,4 @@
 cd ..
 cd ..
 cd Users/server/Documents/GitHub/CS2-Console-Tool
-start "" start.bat
+start "" Start_CS2_Server_Update.bat

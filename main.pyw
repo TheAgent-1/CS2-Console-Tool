@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import PhotoImage
-from CS2Copy import CS2
+from CS2 import CS2
 
 user = ""
 window = tk.Tk()
