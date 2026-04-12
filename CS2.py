@@ -496,7 +496,7 @@ class CS2:
     def start_server():
         import secrets
 
-        folder_path = "./startFiles"
+        folder_path = "startFiles"
         print(f"Folder path: {folder_path}")
 
         StartFiles = [f for f in os.listdir(folder_path)]
