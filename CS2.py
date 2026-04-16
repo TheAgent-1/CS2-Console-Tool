@@ -496,14 +496,25 @@ class CS2:
     def start_server():
         import secrets
 
-        folder_path = "startFiles"
+        # Resolves to the directory the script lives in, then into startFiles/
+        folder_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "startFiles")
         print(f"Folder path: {folder_path}")
+
+        if not os.path.isdir(folder_path):
+            print(f"Error: startFiles folder not found at {folder_path}")
+            return
 
         StartFiles = [f for f in os.listdir(folder_path)]
         print(StartFiles)
+
+        if not StartFiles:
+            print("Error: No files found in startFiles folder")
+            return
+
         randomfile = secrets.choice(StartFiles)
         randomfile_path = os.path.join(folder_path, randomfile)
         print(randomfile_path)
+
         try:
             subprocess.Popen([randomfile_path])
             print(f"Successfully executed: {randomfile_path}")
