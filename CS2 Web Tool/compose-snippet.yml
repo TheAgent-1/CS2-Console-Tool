@@ -1,0 +1,27 @@
+# Add this service to your existing docker-compose.yml
+# alongside the cs2 service
+
+  cs2-panel:
+    build: ./cs2-panel        # path to the cs2-panel folder
+    container_name: cs2-panel
+    restart: unless-stopped
+    network_mode: host          # same as cs2 so RCON works via localhost
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # lets it start/stop the cs2 container
+    environment:
+      - RCON_HOST=127.0.0.1
+      - RCON_PORT=27015
+      - RCON_PASSWORD=${CS2_RCON_PW}
+      - CS2_CONTAINER=cs2
+      - SECRET_KEY=${PANEL_SECRET_KEY}
+      # Optional: override default passwords
+      # - PASS_JACOB=Gh0s7!
+      # - PASS_CHRIS=Chris
+      # - PASS_JONNO=Jonno13
+      # - PASS_NUCLEAR=option
+
+# Also add PANEL_SECRET_KEY to your .env file:
+# PANEL_SECRET_KEY=some-long-random-string-here
+
+# Panel is then accessible at:
+#   http://<your-i5-node-ip>:5000
