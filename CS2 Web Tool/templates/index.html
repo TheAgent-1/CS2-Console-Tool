@@ -621,6 +621,16 @@
     <!-- Players -->
     <div class="section" id="tab-players">
       <div class="players-header">
+        <div class="section-title" style="margin:0;border:none;padding:0">Bot Controls</div>
+        <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('add_ct')">+ Add CT Bot</button>
+          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('add_t')">+ Add T Bot</button>
+          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('zombie_on')">🧟 Zombie Mode On</button>
+          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('zombie_off')">🧠 Zombie Mode Off</button>
+          <button class="btn btn-sm btn-danger" onclick="botAction('kick')">✕ Kick All Bots</button>
+        </div>
+      </div>
+      <div class="players-header">
         <div class="section-title" style="margin:0;border:none;padding:0">Players Online</div>
         <button class="refresh-btn" onclick="refreshPlayers()">↻ Refresh</button>
       </div>
@@ -832,11 +842,35 @@ function renderPlayers() {
     row.innerHTML = `
       <div class="player-avatar">${p.name[0].toUpperCase()}</div>
       <div class="player-name">${escHtml(p.name)}</div>
+      <div class="player-id">${p.addr === 'BOT' ? '🤖 BOT' : p.ping + 'ms · ' + p.addr.split(':')[0]}</div>
       <div class="player-id">#${p.userid}</div>
       <button class="btn btn-danger btn-sm" onclick="confirmKick('${p.userid}','${escHtml(p.name)}')">Kick</button>
     `;
     list.appendChild(row);
   });
+}
+
+async function botAction(action) {
+  const cmds = {
+    'add_ct': 'bot_add_ct',
+    'add_t':  'bot_add_t',
+    'kick':   'bot_kick',
+    'zombie_on':  'bot_zombie 1',
+    'zombie_off': 'bot_zombie 0',
+  };
+  try {
+    const res = await fetch('/api/rcon', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({command: cmds[action]})
+    });
+    const data = await res.json();
+    if (data.ok) toast('Done', 'success');
+    else toast('Error: ' + (data.error || 'Unknown'), 'error');
+  } catch(e) {
+    toast('Request failed: ' + e.message, 'error');
+  }
 }
 
 // ── Tab switching ──────────────────────────────────────────────────────────

@@ -2,6 +2,11 @@ import os
 import re
 from flask import Flask, render_template, request, jsonify, session
 from functools import wraps
+import logging
+
+logging.getLogger('waitress').setLevel(logging.WARNING)  # Suppress Flask's default request logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change-this-secret-key')
@@ -120,15 +125,52 @@ def rcon_command(command):
     except Exception as e:
         return {'ok': False, 'error': str(e)}
 
-def parse_players(status_output):
+def parse_status(status_output):
     players = []
+    current_map = 'Unknown'
+    in_players = False
+
     for line in status_output.split('\n'):
-        m = re.match(r'#\s+(\d+)\s+"(.+?)"\s+(\S+)', line)
+        # Map — grab from first spawngroup entry
+        if current_map == 'Unknown' and '[1:' in line and '| main lump' in line:
+            m = re.search(r'\[1:\s*(\S+)\s*\|', line)
+            if m:
+                current_map = m.group(1)
+
+        # Detect start of players table
+        if line.strip().startswith('id') and 'ping' in line and 'name' in line:
+            in_players = True
+            continue
+
+        if not in_players:
+            continue
+
+        # Skip connecting/challenging slots (id 65535)
+        if re.match(r'^\s*65535\b', line):
+            continue
+
+        # Real player: has an IP address in the line
+        m = re.match(
+            r'^\s*(\d+)\s+(\d+:\d+)\s+(\d+)\s+(\d+)\s+(\w+)\s+(\d+)\s+(\d+\.\d+\.\d+\.\d+:\d+)\s+\'(.*?)\'',
+            line
+        )
         if m:
-            userid, name, steamid = m.groups()
-            if steamid != 'BOT':
-                players.append({'userid': userid, 'name': name, 'steamid': steamid})
-    return players
+            userid, time_, ping, loss, state, rate, addr, name = m.groups()
+            if state == 'active' and name:
+                players.append({'userid': userid, 'name': name, 'ping': ping, 'addr': addr})
+            continue
+
+        # Bot: has BOT where time would be
+        m = re.match(
+            r'^\s*(\d+)\s+BOT\s+\d+\s+\d+\s+\w+\s+\d+\s+\'(.*?)\'',
+            line
+        )
+        if m:
+            userid, name = m.groups()
+            if name:
+                players.append({'userid': userid, 'name': name, 'ping': '-', 'addr': 'BOT'})
+
+    return players, current_map
 
 # ── Auth decorator ────────────────────────────────────────────────────────────
 def login_required(f):
@@ -140,7 +182,7 @@ def login_required(f):
     return decorated
 
 # ── Routes ────────────────────────────────────────────────────────────────────
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
 
@@ -176,11 +218,7 @@ def server_status():
     if running:
         r = rcon_command('status')
         if r['ok']:
-            players = parse_players(r['result'])
-            for line in r['result'].split('\n'):
-                if line.strip().startswith('map'):
-                    current_map = line.split(':', 1)[-1].strip().split()[0]
-                    break
+            players, current_map = parse_status(r['result'])
 
     return jsonify({
         'running': running,
@@ -202,6 +240,7 @@ def change_map():
     name = data.get('map')
     if name not in MAPS:
         return jsonify({'error': 'Unknown map'}), 400
+    rcon_command('game_alias casual')  # Ensure we're in a gamemode before changing map
     r = rcon_command(f'map {MAPS[name]}')
     return jsonify(r)
 
@@ -230,6 +269,16 @@ def kick_player():
     rcon_command('sv_kick_ban_duration 3')
     r = rcon_command(f'kickid {userid}')
     return jsonify(r)
+
+@app.route('/api/rcon', methods=['POST'])
+@login_required
+def raw_rcon():
+    data = request.json or {}
+    command = data.get('command', '').strip()
+    ALLOWED = {'bot_add_ct', 'bot_add_t', 'bot_kick', 'bot_zombie 1', 'bot_zombie 0'}
+    if command not in ALLOWED:
+        return jsonify({'ok': False, 'error': 'Command not permitted'}), 403
+    return jsonify(rcon_command(command))
 
 @app.route('/api/server/start', methods=['POST'])
 @login_required
