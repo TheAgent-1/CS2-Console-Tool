@@ -105,6 +105,8 @@ WORKSHOP_MAPS = {
         'Rainfall':    ('Casual', 3265650949),
         'Lighthouse':  ('Casual', 3342529755),
         'Refuse':      ('Casual', 3294609675),
+        'Stronghold':  ('Casual', 3477094554),
+        'Warden':      ('Casual', 3256988376),
     },
     'Hostage': {
         'Rush':        ('Casual', 3077752384),
@@ -118,6 +120,7 @@ WORKSHOP_MAPS = {
         'Climb':       ('Casual', 3319649237),
         'Agency':      ('Casual', 3339983232),
         'Paris 2024':  ('Casual', 3344069159),
+        'Alpine':      ('Casual', 3221291619),
     },
     'Arms Race': {
         'Lunacy':      ('Arms Race', 3070560242),
@@ -127,6 +130,7 @@ WORKSHOP_MAPS = {
         'Churches':    ('Arms Race', 3070291913),
         'Pool Day':    ('Arms Race', 3070923343),
         'Speedball':   ('Arms Race', 3111527644),
+        
     },
     'Deathmatch': {
         'Omaha Beach': ('Deathmatch', 3148007939),
@@ -139,6 +143,21 @@ WORKSHOP_MAPS = {
         'Lighthouse':  ('Deathmatch', 3342529755),
         'Dolls House': ('Deathmatch', 3073384529),
         'Lake':        ('Deathmatch', 3070563536),
+        'Poseidon':    ('Deathmatch', 3522144043),
+        'Warden':      ('Deathmatch', 3256988376),
+    },
+    'Wingman': {
+        'Sanctum':     ('Wingman', 3643331442),
+        'Poseidon':    ('Wingman', 3522144043),
+    },
+    'VIP': {
+        'Ancient Night': ('Casual', 3575485852),
+        'Ancient':       ('Casual', 3711700605),
+        'Dust 2':        ('Casual', 3711705283),
+        'Inferno':       ('Casual', 3711703660),
+        'Anubis':        ('Casual', 3711702027),
+        'Overpass':      ('Casual', 3711701554),
+        'Vertigo':       ('Casual', 3711702590),
     },
 }
 
