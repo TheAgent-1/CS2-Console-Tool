@@ -1,993 +1,1165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS2 Server Panel</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:       #0b0d10;
-    --surface:  #13171d;
-    --surface2: #1a1f28;
-    --border:   #252c38;
-    --gold:     #e8a827;
-    --gold-dim: #a87518;
-    --text:     #c8d4e0;
-    --text-dim: #667788;
-    --danger:   #e84040;
-    --success:  #3db56e;
-    --radius:   6px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* ── Login ─────────────────────────────────────────────── */
-  #login-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 24px;
-  }
-
-  .login-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--gold);
-    border-radius: var(--radius);
-    padding: 40px 48px;
-    width: 100%;
-    max-width: 380px;
-  }
-
-  .login-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-align: center;
-    margin-bottom: 6px;
-  }
-
-  .login-sub {
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 13px;
-    margin-bottom: 32px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .field-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-dim);
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  .field-group {
-    margin-bottom: 20px;
-  }
-
-  input[type="text"], input[type="password"] {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 16px;
-    padding: 12px 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  input[type="text"]:focus, input[type="password"]:focus {
-    border-color: var(--gold);
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border: none;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: all 0.15s;
-    padding: 12px 20px;
-    white-space: nowrap;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: #000;
-    width: 100%;
-    padding: 14px;
-    font-size: 17px;
-  }
-
-  .btn-primary:hover { background: #f5bc3a; }
-
-  .btn-map {
-    background: var(--surface2);
-    color: var(--text);
-    border: 1px solid var(--border);
-    flex-direction: column;
-    gap: 4px;
-    padding: 18px 12px;
-    font-size: 14px;
-    width: 100%;
-  }
-
-  .btn-map:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    background: #1e2530;
-  }
-
-  .btn-map .map-icon { font-size: 26px; }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--danger);
-    border: 1px solid var(--danger);
-    font-size: 13px;
-    padding: 8px 16px;
-  }
-
-  .btn-danger:hover { background: var(--danger); color: #fff; }
-
-  .btn-success {
-    background: var(--success);
-    color: #fff;
-    padding: 18px 32px;
-    font-size: 20px;
-  }
-
-  .btn-success:hover { background: #4acc7e; }
-
-  .btn-stop {
-    background: transparent;
-    color: var(--danger);
-    border: 2px solid var(--danger);
-    padding: 18px 32px;
-    font-size: 20px;
-  }
-
-  .btn-stop:hover { background: var(--danger); color: #fff; }
-
-  .btn-sm {
-    font-size: 13px;
-    padding: 8px 14px;
-    letter-spacing: 1px;
-  }
-
-  .login-error {
-    color: var(--danger);
-    font-size: 13px;
-    text-align: center;
-    margin-top: 12px;
-    min-height: 20px;
-  }
-
-  /* ── Main App ───────────────────────────────────────────── */
-  #app { display: none; flex-direction: column; min-height: 100vh; }
-
-  /* Header */
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    height: 58px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .status-bar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex: 1;
-    font-size: 13px;
-    color: var(--text-dim);
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--text-dim);
-    flex-shrink: 0;
-  }
-
-  .status-dot.online { background: var(--success); box-shadow: 0 0 6px var(--success); }
-  .status-dot.offline { background: var(--danger); }
-
-  .status-text { color: var(--text); font-weight: 500; }
-
-  .header-user {
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .btn-logout {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: var(--radius);
-    padding: 6px 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-logout:hover { border-color: var(--text-dim); color: var(--text); }
-
-  /* Nav tabs */
-  .nav {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    padding: 0 24px;
-    gap: 4px;
-  }
-
-  .nav-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    background: transparent;
-    border: none;
-    border-bottom: 3px solid transparent;
-    padding: 14px 18px;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .nav-tab:hover { color: var(--text); }
-  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
-
-  /* Content */
-  .content {
-    flex: 1;
-    padding: 28px 24px;
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-  }
-
-  .section { display: none; }
-  .section.active { display: block; }
-
-  .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text);
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-title::before {
-    content: '';
-    display: block;
-    width: 4px;
-    height: 22px;
-    background: var(--gold);
-    border-radius: 2px;
-  }
-
-  /* Map grid */
-  .map-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
-  }
-
-  /* Workshop sub-tabs */
-  .sub-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-  }
-
-  .sub-tab {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: var(--radius);
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .sub-tab:hover { color: var(--text); border-color: #3a4558; }
-  .sub-tab.active { background: var(--gold); color: #000; border-color: var(--gold); }
-
-  .ws-category { display: none; }
-  .ws-category.active { display: block; }
-
-  /* Players */
-  .players-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .player-row {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 18px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .player-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-
-  .player-name {
-    flex: 1;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  .player-id {
-    font-size: 12px;
-    color: var(--text-dim);
-    font-family: monospace;
-  }
-
-  .no-players {
-    color: var(--text-dim);
-    font-size: 15px;
-    padding: 32px;
-    text-align: center;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-  }
-
-  .players-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .refresh-btn {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-    border-radius: var(--radius);
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .refresh-btn:hover { color: var(--text); }
-
-  /* Server control */
-  .server-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-    margin-bottom: 16px;
-  }
-
-  .server-status-big {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  .status-dot-big {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-  }
-
-  .status-dot-big.online { background: var(--success); box-shadow: 0 0 12px var(--success); }
-  .status-dot-big.offline { background: var(--danger); }
-
-  .server-controls {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  /* Toast */
-  #toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--gold);
-    border-radius: var(--radius);
-    padding: 14px 20px;
-    font-size: 14px;
-    color: var(--text);
-    z-index: 999;
-    opacity: 0;
-    transform: translateY(12px);
-    transition: all 0.25s;
-    max-width: 320px;
-  }
-
-  #toast.show { opacity: 1; transform: translateY(0); }
-  #toast.error { border-left-color: var(--danger); }
-  #toast.success { border-left-color: var(--success); }
-
-  /* Confirm overlay */
-  #confirm-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #confirm-overlay.show { display: flex; }
-
-  .confirm-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--danger);
-    border-radius: var(--radius);
-    padding: 32px;
-    width: 100%;
-    max-width: 360px;
-    text-align: center;
-  }
-
-  .confirm-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .confirm-msg {
-    color: var(--text-dim);
-    font-size: 15px;
-    margin-bottom: 24px;
-    line-height: 1.5;
-  }
-
-  .confirm-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
-
-  .btn-cancel {
-    background: transparent;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    padding: 12px 24px;
-    font-size: 15px;
-  }
-
-  .btn-cancel:hover { color: var(--text); border-color: var(--text-dim); }
-
-  .spinning { animation: spin 1s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS2 Server Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --surface: #13171d;
+      --surface2: #1a1f28;
+      --border: #252c38;
+      --gold: #e8a827;
+      --gold-dim: #a87518;
+      --text: #c8d4e0;
+      --text-dim: #667788;
+      --danger: #e84040;
+      --success: #3db56e;
+      --radius: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Login ─────────────────────────────────────────────── */
+    #login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 40px 48px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .login-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .login-sub {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .field-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .field-group {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--gold);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all 0.15s;
+      padding: 12px 20px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+    }
+
+    .btn-primary:hover {
+      background: #f5bc3a;
+    }
+
+    .btn-map {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      flex-direction: column;
+      gap: 4px;
+      padding: 18px 12px;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .btn-map:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: #1e2530;
+    }
+
+    .btn-map .map-icon {
+      font-size: 26px;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      font-size: 13px;
+      padding: 8px 16px;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      padding: 18px 32px;
+      font-size: 20px;
+    }
+
+    .btn-success:hover {
+      background: #4acc7e;
+    }
+
+    .btn-stop {
+      background: transparent;
+      color: var(--danger);
+      border: 2px solid var(--danger);
+      padding: 18px 32px;
+      font-size: 20px;
+    }
+
+    .btn-stop:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-sm {
+      font-size: 13px;
+      padding: 8px 14px;
+      letter-spacing: 1px;
+    }
+
+    .login-error {
+      color: var(--danger);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+
+    /* ── Main App ───────────────────────────────────────────── */
+    #app {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 58px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .status-dot.online {
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    .status-dot.offline {
+      background: var(--danger);
+    }
+
+    .status-text {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .header-user {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-logout {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: var(--radius);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-logout:hover {
+      border-color: var(--text-dim);
+      color: var(--text);
+    }
+
+    /* Nav tabs */
+    .nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      padding: 0 24px;
+      gap: 4px;
+    }
+
+    .nav-tab {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tab:hover {
+      color: var(--text);
+    }
+
+    .nav-tab.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    /* Content */
+    .content {
+      flex: 1;
+      padding: 28px 24px;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 22px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* Map grid */
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    /* Workshop sub-tabs */
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .sub-tab {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .sub-tab:hover {
+      color: var(--text);
+      border-color: #3a4558;
+    }
+
+    .sub-tab.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .ws-category {
+      display: none;
+    }
+
+    .ws-category.active {
+      display: block;
+    }
+
+    /* Players */
+    .players-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .player-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .player-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .player-name {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .player-id {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-family: monospace;
+    }
+
+    .no-players {
+      color: var(--text-dim);
+      font-size: 15px;
+      padding: 32px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .players-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .refresh-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: var(--radius);
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .refresh-btn:hover {
+      color: var(--text);
+    }
+
+    /* Server control */
+    .server-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 16px;
+    }
+
+    .server-status-big {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .status-dot-big {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+    }
+
+    .status-dot-big.online {
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    .status-dot-big.offline {
+      background: var(--danger);
+    }
+
+    .server-controls {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--text);
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.25s;
+      max-width: 320px;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #toast.error {
+      border-left-color: var(--danger);
+    }
+
+    #toast.success {
+      border-left-color: var(--success);
+    }
+
+    /* Confirm overlay */
+    #confirm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #confirm-overlay.show {
+      display: flex;
+    }
+
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--danger);
+      border-radius: var(--radius);
+      padding: 32px;
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+    }
+
+    .confirm-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .confirm-msg {
+      color: var(--text-dim);
+      font-size: 15px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 15px;
+    }
+
+    .btn-cancel:hover {
+      color: var(--text);
+      border-color: var(--text-dim);
+    }
+
+    .spinning {
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Login -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">CS2 Panel</div>
-    <div class="login-sub">Server Management</div>
-    <div class="field-group">
-      <label class="field-label">Username</label>
-      <input type="text" id="login-user" autocomplete="username" placeholder="">
-    </div>
-    <div class="field-group">
-      <label class="field-label">Password</label>
-      <input type="password" id="login-pass" autocomplete="current-password" placeholder="">
-    </div>
-    <button class="btn btn-primary" onclick="doLogin()">Sign In</button>
-    <div class="login-error" id="login-error"></div>
-  </div>
-</div>
-
-<!-- Main App -->
-<div id="app">
-  <div class="header">
-    <div class="header-logo">CS2 Panel</div>
-    <div class="status-bar">
-      <div class="status-dot" id="hdr-dot"></div>
-      <span id="hdr-status" class="status-text">Checking...</span>
-      <span id="hdr-map" style="color:var(--text-dim)"></span>
-      <span id="hdr-players" style="color:var(--text-dim)"></span>
-    </div>
-    <div class="header-user">
-      <span id="hdr-user"></span>
-      <button class="btn-logout" onclick="doLogout()">Log Out</button>
+  <!-- Login -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-logo">CS2 Panel</div>
+      <div class="login-sub">Server Management</div>
+      <div class="field-group">
+        <label class="field-label">Username</label>
+        <input type="text" id="login-user" autocomplete="username" placeholder="">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Password</label>
+        <input type="password" id="login-pass" autocomplete="current-password" placeholder="">
+      </div>
+      <button class="btn btn-primary" onclick="doLogin()">Sign In</button>
+      <div class="login-error" id="login-error"></div>
     </div>
   </div>
 
-  <div class="nav">
-    <button class="nav-tab active" data-tab="maps" onclick="switchTab('maps',this)">🗺 Maps</button>
-    <button class="nav-tab" data-tab="workshop" onclick="switchTab('workshop',this)">🔧 Workshop</button>
-    <button class="nav-tab" data-tab="players" onclick="switchTab('players',this)">👥 Players</button>
-    <button class="nav-tab" data-tab="server" onclick="switchTab('server',this)">⚙️ Server</button>
-  </div>
-
-  <div class="content">
-
-    <!-- Maps -->
-    <div class="section active" id="tab-maps">
-      <div class="section-title">Official Maps</div>
-      <div class="map-grid" id="map-grid"></div>
+  <!-- Main App -->
+  <div id="app">
+    <div class="header">
+      <div class="header-logo">CS2 Panel</div>
+      <div class="status-bar">
+        <div class="status-dot" id="hdr-dot"></div>
+        <span id="hdr-status" class="status-text">Checking...</span>
+        <span id="hdr-map" style="color:var(--text-dim)"></span>
+        <span id="hdr-players" style="color:var(--text-dim)"></span>
+      </div>
+      <div class="header-user">
+        <span id="hdr-user"></span>
+        <button class="btn-logout" onclick="doLogout()">Log Out</button>
+      </div>
     </div>
 
-    <!-- Workshop -->
-    <div class="section" id="tab-workshop">
-      <div class="section-title">Workshop Maps</div>
-      <div class="sub-tabs" id="ws-tabs"></div>
-      <div id="ws-categories"></div>
+    <div class="nav">
+      <button class="nav-tab active" data-tab="maps" onclick="switchTab('maps',this)">🗺 Maps</button>
+      <button class="nav-tab" data-tab="workshop" onclick="switchTab('workshop',this)">🔧 Workshop</button>
+      <button class="nav-tab" data-tab="players" onclick="switchTab('players',this)">👥 Players</button>
+      <button class="nav-tab" data-tab="server" onclick="switchTab('server',this)">⚙️ Server</button>
     </div>
 
-    <!-- Players -->
-    <div class="section" id="tab-players">
-      <div class="players-header">
-        <div class="section-title" style="margin:0;border:none;padding:0">Bot Controls</div>
-        <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('add_ct')">+ Add CT Bot</button>
-          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('add_t')">+ Add T Bot</button>
-          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('zombie_on')">🧟 Zombie Mode On</button>
-          <button class="btn btn-sm" style="background:var(--surface2);border:1px solid var(--border);color:var(--text)" onclick="botAction('zombie_off')">🧠 Zombie Mode Off</button>
-          <button class="btn btn-sm btn-danger" onclick="botAction('kick')">✕ Kick All Bots</button>
+    <div class="content">
+
+      <!-- Maps -->
+      <div class="section active" id="tab-maps">
+        <div class="section-title">Official Maps</div>
+
+        <!-- Gamemode selector -->
+        <div style="margin-bottom:20px;">
+          <div
+            style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">
+            Game Mode</div>
+          <div class="sub-tabs" id="gamemode-tabs"></div>
+        </div>
+
+        <!-- Map grid -->
+        <div class="map-grid" id="map-grid"></div>
+
+        <!-- Community map -->
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+          <div class="section-title" style="margin-bottom:16px;font-size:17px;">Community Map</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+            <input type="text" id="community-map-input" placeholder="e.g. de_cache" style="max-width:260px;padding:10px 14px;font-size:15px;">
+            <button class="btn btn-sm" style="background:var(--gold);color:#000;border:none;padding:11px 20px;" onclick="loadCommunityMap()">Load Map</button>
+          </div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:8px;">Uses the currently selected game mode above.</div>
         </div>
       </div>
-      <div class="players-header">
-        <div class="section-title" style="margin:0;border:none;padding:0">Players Online</div>
-        <button class="refresh-btn" onclick="refreshPlayers()">↻ Refresh</button>
-      </div>
-      <div class="players-list" id="players-list">
-        <div class="no-players">Loading player list...</div>
-      </div>
-    </div>
 
-    <!-- Server -->
-    <div class="section" id="tab-server">
-      <div class="section-title">Server Control</div>
-      <div class="server-card">
-        <div class="server-status-big">
-          <div class="status-dot-big" id="srv-dot"></div>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px" id="srv-status-text">Checking...</div>
-            <div style="font-size:13px;color:var(--text-dim);margin-top:2px" id="srv-map-text"></div>
+      <!-- Workshop -->
+      <div class="section" id="tab-workshop">
+        <div class="section-title">Workshop Maps</div>
+        <div class="sub-tabs" id="ws-tabs"></div>
+        <div id="ws-categories"></div>
+      </div>
+
+      <!-- Players -->
+      <div class="section" id="tab-players">
+        <div class="players-header">
+          <div class="section-title" style="margin:0;border:none;padding:0">Bot Controls</div>
+          <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+            <button class="btn btn-sm"
+              style="background:var(--surface2);border:1px solid var(--border);color:var(--text)"
+              onclick="botAction('add_ct')">+ Add CT Bot</button>
+            <button class="btn btn-sm"
+              style="background:var(--surface2);border:1px solid var(--border);color:var(--text)"
+              onclick="botAction('add_t')">+ Add T Bot</button>
+            <button class="btn btn-sm"
+              style="background:var(--surface2);border:1px solid var(--border);color:var(--text)"
+              onclick="botAction('zombie_on')">🧟 Zombie Mode On</button>
+            <button class="btn btn-sm"
+              style="background:var(--surface2);border:1px solid var(--border);color:var(--text)"
+              onclick="botAction('zombie_off')">🧠 Zombie Mode Off</button>
+            <button class="btn btn-sm btn-danger" onclick="botAction('kick')">✕ Kick All Bots</button>
           </div>
         </div>
-        <div class="server-controls">
-          <button class="btn btn-success" onclick="confirmAction('start')">▶ Start Server</button>
-          <button class="btn btn-stop" onclick="confirmAction('stop')">■ Stop Server</button>
+        <div class="players-header">
+          <div class="section-title" style="margin:0;border:none;padding:0">Players Online</div>
+          <button class="refresh-btn" onclick="refreshPlayers()">↻ Refresh</button>
+        </div>
+        <div class="players-list" id="players-list">
+          <div class="no-players">Loading player list...</div>
         </div>
       </div>
+
+      <!-- Server -->
+      <div class="section" id="tab-server">
+        <div class="section-title">Server Control</div>
+        <div class="server-card">
+          <div class="server-status-big">
+            <div class="status-dot-big" id="srv-dot"></div>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px"
+                id="srv-status-text">Checking...</div>
+              <div style="font-size:13px;color:var(--text-dim);margin-top:2px" id="srv-map-text"></div>
+            </div>
+          </div>
+          <div class="server-controls">
+            <button class="btn btn-success" onclick="confirmAction('start')">▶ Start Server</button>
+            <button class="btn btn-stop" onclick="confirmAction('stop')">■ Stop Server</button>
+          </div>
+        </div>
+      </div>
+
     </div>
-
   </div>
-</div>
 
-<!-- Toast -->
-<div id="toast"></div>
+  <!-- Toast -->
+  <div id="toast"></div>
 
-<!-- Confirm Dialog -->
-<div id="confirm-overlay">
-  <div class="confirm-box">
-    <div class="confirm-title" id="confirm-title">Are you sure?</div>
-    <div class="confirm-msg" id="confirm-msg"></div>
-    <div class="confirm-actions">
-      <button class="btn btn-cancel" onclick="closeConfirm()">Cancel</button>
-      <button class="btn" id="confirm-ok" onclick="executeConfirm()">Confirm</button>
+  <!-- Confirm Dialog -->
+  <div id="confirm-overlay">
+    <div class="confirm-box">
+      <div class="confirm-title" id="confirm-title">Are you sure?</div>
+      <div class="confirm-msg" id="confirm-msg"></div>
+      <div class="confirm-actions">
+        <button class="btn btn-cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="btn" id="confirm-ok" onclick="executeConfirm()">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-// ── Map data injected from server ──────────────────────────────────────────
-const MAP_ICONS = {
-  'Ancient':'🏛️','Ancient Night':'🌙','Anubis':'🐱','Dust 2':'🏜️',
-  'Inferno':'🔥','Italy':'🍕','Mirage':'🕌','Nuke':'☢️','Office':'🏢',
-  'Overpass':'🌉','Train':'🚂','Vertigo':'🏗️','Baggage':'🧳',
-  'Shoots':'🎯','Shoots Night':'🌃',
-};
+  <script>
+    // ── Map data injected from server ──────────────────────────────────────────
+    const MAP_ICONS = {
+      'Ancient': '🏛️', 'Ancient Night': '🌙', 'Anubis': '🐱', 'Dust 2': '🏜️',
+      'Inferno': '🔥', 'Italy': '🍕', 'Mirage': '🕌', 'Nuke': '☢️', 'Office': '🏢',
+      'Overpass': '🌉', 'Train': '🚂', 'Vertigo': '🏗️', 'Baggage': '🧳',
+      'Shoots': '🎯', 'Shoots Night': '🌃',
+    };
 
-let state = { running: false, players: [], map: '', user: '' };
-let confirmPending = null;
-let statusInterval = null;
+    let state = { running: false, players: [], map: '', user: '' };
+    let confirmPending = null;
+    let statusInterval = null;
 
-// ── Auth ───────────────────────────────────────────────────────────────────
-document.getElementById('login-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-
-async function doLogin() {
-  const user = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  const err  = document.getElementById('login-error');
-  err.textContent = '';
-
-  const res = await fetch('/api/login', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({username: user, password: pass})
-  });
-  const data = await res.json();
-
-  if (data.success) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    document.getElementById('hdr-user').textContent = data.username;
-    initApp();
-  } else {
-    err.textContent = data.error || 'Login failed';
-  }
-}
-
-async function doLogout() {
-  await fetch('/api/logout', {method:'POST'});
-  location.reload();
-}
-
-// ── Init ───────────────────────────────────────────────────────────────────
-async function initApp() {
-  await loadMaps();
-  await refreshStatus();
-  statusInterval = setInterval(refreshStatus, 10000);
-}
-
-async function loadMaps() {
-  const res  = await fetch('/api/maps');
-  const data = await res.json();
-
-  // Official maps
-  const grid = document.getElementById('map-grid');
-  data.maps.forEach(name => {
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-map';
-    btn.innerHTML = `<span class="map-icon">${MAP_ICONS[name] || '🗺️'}</span>${name}`;
-    btn.onclick = () => confirmMapChange(name, 'official');
-    grid.appendChild(btn);
-  });
-
-  // Workshop
-  const wsTabs = document.getElementById('ws-tabs');
-  const wsCats = document.getElementById('ws-categories');
-  let firstCat = true;
-
-  Object.entries(data.workshop).forEach(([cat, maps]) => {
-    const tab = document.createElement('button');
-    tab.className = 'sub-tab' + (firstCat ? ' active' : '');
-    tab.textContent = cat;
-    tab.onclick = () => switchWsCat(cat, tab);
-    wsTabs.appendChild(tab);
-
-    const div = document.createElement('div');
-    div.className = 'ws-category' + (firstCat ? ' active' : '');
-    div.id = 'wscat-' + cat;
-    div.innerHTML = '<div class="map-grid"></div>';
-    const g = div.querySelector('.map-grid');
-    maps.forEach(name => {
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-map';
-      btn.innerHTML = `<span class="map-icon">🔧</span>${name}`;
-      btn.onclick = () => confirmMapChange(name, 'workshop', cat);
-      g.appendChild(btn);
+    // ── Auth ───────────────────────────────────────────────────────────────────
+    document.getElementById('login-pass').addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
     });
-    wsCats.appendChild(div);
-    firstCat = false;
-  });
-}
 
-function switchWsCat(cat, el) {
-  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.ws-category').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('wscat-' + cat).classList.add('active');
-}
+    async function doLogin() {
+      const user = document.getElementById('login-user').value.trim();
+      const pass = document.getElementById('login-pass').value;
+      const err = document.getElementById('login-error');
+      err.textContent = '';
 
-// ── Status ─────────────────────────────────────────────────────────────────
-async function refreshStatus() {
-  try {
-    const res  = await fetch('/api/status');
-    const data = await res.json();
-    state = data;
-    updateStatusUI();
-    if (document.getElementById('tab-players').classList.contains('active')) {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        document.getElementById('hdr-user').textContent = data.username;
+        initApp();
+      } else {
+        err.textContent = data.error || 'Login failed';
+      }
+    }
+
+    async function doLogout() {
+      await fetch('/api/logout', { method: 'POST' });
+      location.reload();
+    }
+
+    // ── Init ───────────────────────────────────────────────────────────────────
+    async function initApp() {
+      await loadMaps();
+      await refreshStatus();
+      statusInterval = setInterval(refreshStatus, 10000);
+    }
+
+    let mapData = {};
+    let modeMaps = {};
+    let selectedGamemode = 'Casual';
+
+    async function loadMaps() {
+      const res = await fetch('/api/maps');
+      const data = await res.json();
+      mapData = data.maps;        // { 'Dust 2': 'de', ... }
+      modeMaps = data.mode_maps;
+
+      // Build gamemode tabs
+      const tabsEl = document.getElementById('gamemode-tabs');
+      data.gamemodes.forEach((gm, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'sub-tab' + (i === 0 ? ' active' : '');
+        btn.textContent = gm;
+        btn.onclick = () => selectGamemode(gm, btn);
+        tabsEl.appendChild(btn);
+      });
+
+      renderMapGrid();
+
+      // Workshop
+      const wsTabs = document.getElementById('ws-tabs');
+      const wsCats = document.getElementById('ws-categories');
+      let first = true;
+      Object.entries(data.workshop).forEach(([cat, maps]) => {
+        const tab = document.createElement('button');
+        tab.className = 'sub-tab' + (first ? ' active' : '');
+        tab.textContent = cat;
+        tab.onclick = () => switchWsCat(cat, tab);
+        wsTabs.appendChild(tab);
+
+        const div = document.createElement('div');
+        div.className = 'ws-category' + (first ? ' active' : '');
+        div.id = 'wscat-' + cat;
+        div.innerHTML = '<div class="map-grid"></div>';
+        const g = div.querySelector('.map-grid');
+        maps.forEach(name => {
+          const btn = document.createElement('button');
+          btn.className = 'btn btn-map';
+          btn.innerHTML = `<span class="map-icon">🔧</span>${name}`;
+          btn.onclick = () => confirmMapChange(name, 'workshop', cat);
+          g.appendChild(btn);
+        });
+        wsCats.appendChild(div);
+        first = false;
+      });
+    }
+
+    function selectGamemode(gm, el) {
+      selectedGamemode = gm;
+      document.querySelectorAll('#gamemode-tabs .sub-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      renderMapGrid();
+    }
+
+    function renderMapGrid() {
+      const grid = document.getElementById('map-grid');
+      const allowed = new Set(modeMaps[selectedGamemode] || []);
+      grid.innerHTML = '';
+
+      Object.keys(mapData).forEach(name => {
+        if (!allowed.has(name)) return;
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-map';
+        btn.innerHTML = `<span class="map-icon">${MAP_ICONS[name] || '🗺️'}</span>${name}`;
+        btn.onclick = () => confirmMapChange(name, 'official');
+        grid.appendChild(btn);
+      });
+
+      if (grid.children.length === 0) {
+        grid.innerHTML = '<div style="color:var(--text-dim);font-size:14px;padding:20px;">No maps available for this mode.</div>';
+      }
+    }
+
+    async function loadCommunityMap() {
+      const name = document.getElementById('community-map-input').value.trim();
+      if (!name) { toast('Enter a map name', 'error'); return; }
+      confirmPending = async () => {
+        const res = await fetch('/api/community_map', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ map: name, gamemode: selectedGamemode })
+        });
+        const data = await res.json();
+        if (data.ok) toast('Loading ' + name + '...', 'success');
+        else toast('Error: ' + (data.error || 'Unknown'), 'error');
+      };
+      showConfirm('Load Community Map', `Load "${name}" in ${selectedGamemode} mode?`, 'Load', '#e8a827', '#000');
+    }
+
+    function switchWsCat(cat, el) {
+      document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.ws-category').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('wscat-' + cat).classList.add('active');
+    }
+
+    // ── Status ─────────────────────────────────────────────────────────────────
+    async function refreshStatus() {
+      try {
+        const res = await fetch('/api/status');
+        const data = await res.json();
+        state = data;
+        updateStatusUI();
+        if (document.getElementById('tab-players').classList.contains('active')) {
+          renderPlayers();
+        }
+      } catch (e) { }
+    }
+
+    function updateStatusUI() {
+      const dot = document.getElementById('hdr-dot');
+      const stTxt = document.getElementById('hdr-status');
+      const mapTxt = document.getElementById('hdr-map');
+      const plTxt = document.getElementById('hdr-players');
+      const srvDot = document.getElementById('srv-dot');
+      const srvSt = document.getElementById('srv-status-text');
+      const srvMap = document.getElementById('srv-map-text');
+
+      if (state.running) {
+        dot.className = 'status-dot online';
+        stTxt.textContent = 'Online';
+        mapTxt.textContent = state.map ? '· ' + state.map : '';
+        plTxt.textContent = `· ${state.players.length} player${state.players.length !== 1 ? 's' : ''}`;
+        srvDot.className = 'status-dot-big online';
+        srvSt.textContent = 'Server is Running';
+        srvMap.textContent = 'Current map: ' + (state.map || 'Unknown');
+      } else {
+        dot.className = 'status-dot offline';
+        stTxt.textContent = 'Offline';
+        mapTxt.textContent = '';
+        plTxt.textContent = '';
+        srvDot.className = 'status-dot-big offline';
+        srvSt.textContent = 'Server is Stopped';
+        srvMap.textContent = '';
+      }
+    }
+
+    // ── Players ────────────────────────────────────────────────────────────────
+    async function refreshPlayers() {
+      await refreshStatus();
       renderPlayers();
     }
-  } catch(e) {}
-}
 
-function updateStatusUI() {
-  const dot   = document.getElementById('hdr-dot');
-  const stTxt = document.getElementById('hdr-status');
-  const mapTxt= document.getElementById('hdr-map');
-  const plTxt = document.getElementById('hdr-players');
-  const srvDot= document.getElementById('srv-dot');
-  const srvSt = document.getElementById('srv-status-text');
-  const srvMap= document.getElementById('srv-map-text');
-
-  if (state.running) {
-    dot.className = 'status-dot online';
-    stTxt.textContent = 'Online';
-    mapTxt.textContent = state.map ? '· ' + state.map : '';
-    plTxt.textContent  = `· ${state.players.length} player${state.players.length !== 1 ? 's' : ''}`;
-    srvDot.className = 'status-dot-big online';
-    srvSt.textContent = 'Server is Running';
-    srvMap.textContent = 'Current map: ' + (state.map || 'Unknown');
-  } else {
-    dot.className = 'status-dot offline';
-    stTxt.textContent = 'Offline';
-    mapTxt.textContent = '';
-    plTxt.textContent = '';
-    srvDot.className = 'status-dot-big offline';
-    srvSt.textContent = 'Server is Stopped';
-    srvMap.textContent = '';
-  }
-}
-
-// ── Players ────────────────────────────────────────────────────────────────
-async function refreshPlayers() {
-  await refreshStatus();
-  renderPlayers();
-}
-
-function renderPlayers() {
-  const list = document.getElementById('players-list');
-  if (!state.running) {
-    list.innerHTML = '<div class="no-players">Server is offline</div>';
-    return;
-  }
-  if (state.players.length === 0) {
-    list.innerHTML = '<div class="no-players">No players connected</div>';
-    return;
-  }
-  list.innerHTML = '';
-  state.players.forEach(p => {
-    const row = document.createElement('div');
-    row.className = 'player-row';
-    row.innerHTML = `
-      <div class="player-avatar">${p.name[0].toUpperCase()}</div>
-      <div class="player-name">${escHtml(p.name)}</div>
-      <div class="player-id">${p.addr === 'BOT' ? '🤖 BOT' : p.ping + 'ms · ' + p.addr.split(':')[0]}</div>
-      <div class="player-id">#${p.userid}</div>
-      <button class="btn btn-danger btn-sm" onclick="confirmKick('${p.userid}','${escHtml(p.name)}')">Kick</button>
-    `;
-    list.appendChild(row);
-  });
-}
-
-async function botAction(action) {
-  const cmds = {
-    'add_ct': 'bot_add_ct',
-    'add_t':  'bot_add_t',
-    'kick':   'bot_kick',
-    'zombie_on':  'bot_zombie 1',
-    'zombie_off': 'bot_zombie 0',
-  };
-  try {
-    const res = await fetch('/api/rcon', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({command: cmds[action]})
-    });
-    const data = await res.json();
-    if (data.ok) toast('Done', 'success');
-    else toast('Error: ' + (data.error || 'Unknown'), 'error');
-  } catch(e) {
-    toast('Request failed: ' + e.message, 'error');
-  }
-}
-
-// ── Tab switching ──────────────────────────────────────────────────────────
-function switchTab(name, el) {
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'players') refreshPlayers();
-}
-
-// ── Confirm dialogs ────────────────────────────────────────────────────────
-function confirmMapChange(name, type, cat) {
-  confirmPending = async () => {
-    let res;
-    if (type === 'official') {
-      res = await fetch('/api/map', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({map: name})
-      });
-    } else {
-      res = await fetch('/api/workshop', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({category: cat, map: name})
+    function renderPlayers() {
+      const list = document.getElementById('players-list');
+      if (!state.running) {
+        list.innerHTML = '<div class="no-players">Server is offline</div>';
+        return;
+      }
+      if (state.players.length === 0) {
+        list.innerHTML = '<div class="no-players">No players connected</div>';
+        return;
+      }
+      list.innerHTML = '';
+      state.players.forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'player-row';
+        row.innerHTML = `
+          <div class="player-avatar">${p.name[0].toUpperCase()}</div>
+          <div class="player-name">${escHtml(p.name)}</div>
+          <div class="player-id">${p.addr === 'BOT' ? '🤖 BOT' : p.ping + 'ms · ' + p.addr.split(':')[0]}</div>
+          <div class="player-id">#${p.userid}</div>
+          <button class="btn btn-danger btn-sm" onclick="confirmKick('${p.userid}','${escHtml(p.name)}')">Kick</button>
+        `;
+        list.appendChild(row);
       });
     }
-    const data = await res.json();
-    if (data.ok) toast('Map changing to ' + name, 'success');
-    else toast('Error: ' + (data.error || 'Unknown error'), 'error');
-  };
-  showConfirm(
-    'Change Map',
-    `Switch to "${name}"?\n\nThis will restart the round and disconnect all players briefly.`,
-    'Change Map',
-    '#e8a827', '#000'
-  );
-}
 
-function confirmKick(userid, name) {
-  confirmPending = async () => {
-    const res = await fetch('/api/kick', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({userid})
-    });
-    const data = await res.json();
-    if (data.ok) { toast(`${name} kicked`, 'success'); await refreshPlayers(); }
-    else toast('Error: ' + (data.error || 'Unknown error'), 'error');
-  };
-  showConfirm('Kick Player', `Kick "${name}" from the server?\n\nThey will receive a 3-minute ban.`, 'Kick', '#e84040', '#fff');
-}
-
-function confirmAction(action) {
-  if (action === 'start') {
-    confirmPending = async () => {
-      const res = await fetch('/api/server/start', {method:'POST', credentials:'same-origin'});
-      if (!res.ok) { toast('Error ' + res.status + ': ' + await res.text(), 'error'); return; }
-      const data = await res.json();
-      if (data.success) { toast('Server starting...', 'success'); setTimeout(refreshStatus, 5000); }
-      else toast('Error: ' + (data.error || 'Unknown error'), 'error');
-    };
-    showConfirm('Start Server', 'Start the CS2 dedicated server?', 'Start', '#3db56e', '#fff');
-  } else {
-    confirmPending = async () => {
-      const res = await fetch('/api/server/stop', {method:'POST', credentials:'same-origin'});
-      if (!res.ok) { toast('Error ' + res.status + ': ' + await res.text(), 'error'); return; }
-      const data = await res.json();
-      if (data.success) { toast('Server stopped', 'success'); setTimeout(refreshStatus, 3000); }
-      else toast('Error: ' + (data.error || 'Unknown error'), 'error');
-    };
-    showConfirm('Stop Server', 'Stop the CS2 server?\n\nAll players will be disconnected.', 'Stop', '#e84040', '#fff');
-  }
-}
-
-function showConfirm(title, msg, okLabel, okBg, okColor) {
-  document.getElementById('confirm-title').textContent = title;
-  document.getElementById('confirm-msg').textContent = msg;
-  const ok = document.getElementById('confirm-ok');
-  ok.textContent = okLabel;
-  ok.style.background = okBg;
-  ok.style.color = okColor;
-  ok.style.border = 'none';
-  document.getElementById('confirm-overlay').classList.add('show');
-}
-
-function closeConfirm() {
-  document.getElementById('confirm-overlay').classList.remove('show');
-  confirmPending = null;
-}
-
-async function executeConfirm() {
-  const action = confirmPending; // grab it first
-  closeConfirm();                // now safe to close
-  if (action) {
-    try {
-      await action();
-    } catch(e) {
-      toast('Request failed: ' + e.message, 'error');
+    async function botAction(action) {
+      const cmds = {
+        'add_ct': 'bot_add_ct',
+        'add_t': 'bot_add_t',
+        'kick': 'bot_kick',
+        'zombie_on': 'bot_zombie 1',
+        'zombie_off': 'bot_zombie 0',
+      };
+      try {
+        const res = await fetch('/api/rcon', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ command: cmds[action] })
+        });
+        const data = await res.json();
+        if (data.ok) toast('Done', 'success');
+        else toast('Error: ' + (data.error || 'Unknown'), 'error');
+      } catch (e) {
+        toast('Request failed: ' + e.message, 'error');
+      }
     }
-  }
-}
 
-// ── Toast ──────────────────────────────────────────────────────────────────
-let toastTimer = null;
-function toast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'show ' + type;
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.className = '', 3500);
-}
+    // ── Tab switching ──────────────────────────────────────────────────────────
+    function switchTab(name, el) {
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('tab-' + name).classList.add('active');
+      if (name === 'players') refreshPlayers();
+    }
 
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-</script>
+    // ── Confirm dialogs ────────────────────────────────────────────────────────
+    function confirmMapChange(name, type, cat) {
+      confirmPending = async () => {
+        let res;
+        if (type === 'official') {
+          res = await fetch('/api/map', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ map: name, gamemode: selectedGamemode })
+          });
+        } else {
+          res = await fetch('/api/workshop', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category: cat, map: name })
+          });
+        }
+        const data = await res.json();
+        if (data.ok) toast('Map changing to ' + name, 'success');
+        else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+      };
+      showConfirm(
+        'Change Map',
+        `Switch to "${name}"?\n\nThis will restart the round and disconnect all players briefly.`,
+        'Change Map',
+        '#e8a827', '#000'
+      );
+    }
+
+    function confirmKick(userid, name) {
+      confirmPending = async () => {
+        const res = await fetch('/api/kick', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userid })
+        });
+        const data = await res.json();
+        if (data.ok) { toast(`${name} kicked`, 'success'); await refreshPlayers(); }
+        else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+      };
+      showConfirm('Kick Player', `Kick "${name}" from the server?\n\nThey will receive a 3-minute ban.`, 'Kick', '#e84040', '#fff');
+    }
+
+    function confirmAction(action) {
+      if (action === 'start') {
+        confirmPending = async () => {
+          const res = await fetch('/api/server/start', { method: 'POST', credentials: 'same-origin' });
+          if (!res.ok) { toast('Error ' + res.status + ': ' + await res.text(), 'error'); return; }
+          const data = await res.json();
+          if (data.success) { toast('Server starting...', 'success'); setTimeout(refreshStatus, 5000); }
+          else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+        };
+        showConfirm('Start Server', 'Start the CS2 dedicated server?', 'Start', '#3db56e', '#fff');
+      } else {
+        confirmPending = async () => {
+          const res = await fetch('/api/server/stop', { method: 'POST', credentials: 'same-origin' });
+          if (!res.ok) { toast('Error ' + res.status + ': ' + await res.text(), 'error'); return; }
+          const data = await res.json();
+          if (data.success) { toast('Server stopped', 'success'); setTimeout(refreshStatus, 3000); }
+          else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+        };
+        showConfirm('Stop Server', 'Stop the CS2 server?\n\nAll players will be disconnected.', 'Stop', '#e84040', '#fff');
+      }
+    }
+
+    function showConfirm(title, msg, okLabel, okBg, okColor) {
+      document.getElementById('confirm-title').textContent = title;
+      document.getElementById('confirm-msg').textContent = msg;
+      const ok = document.getElementById('confirm-ok');
+      ok.textContent = okLabel;
+      ok.style.background = okBg;
+      ok.style.color = okColor;
+      ok.style.border = 'none';
+      document.getElementById('confirm-overlay').classList.add('show');
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirm-overlay').classList.remove('show');
+      confirmPending = null;
+    }
+
+    async function executeConfirm() {
+      const action = confirmPending; // grab it first
+      closeConfirm();                // now safe to close
+      if (action) {
+        try {
+          await action();
+        } catch (e) {
+          toast('Request failed: ' + e.message, 'error');
+        }
+      }
+    }
+
+    // ── Toast ──────────────────────────────────────────────────────────────────
+    let toastTimer = null;
+    function toast(msg, type = '') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'show ' + type;
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.className = '', 3500);
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
 </body>
+
 </html>

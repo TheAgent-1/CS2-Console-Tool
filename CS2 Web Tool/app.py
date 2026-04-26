@@ -3,6 +3,7 @@ import re
 from flask import Flask, render_template, request, jsonify, session
 from functools import wraps
 import logging
+import time
 
 logging.getLogger('waitress').setLevel(logging.WARNING)  # Suppress Flask's default request logging
 log = logging.getLogger('werkzeug')
@@ -12,6 +13,10 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change-this-secret-key')
 
 # ── Config (set via environment variables) ──────────────────────────────────
+#TEMP LOAD FROM .env. COMMENT OUT FOR PRODUCTION, SHOULD BE SET IN ENVIRONMENT
+#from dotenv import load_dotenv
+#load_dotenv()
+
 RCON_HOST      = os.environ.get('RCON_HOST', '192.168.1.41')
 RCON_PORT      = int(os.environ.get('RCON_PORT', 27015))
 RCON_PASSWORD  = os.environ.get('RCON_PASSWORD', '')
@@ -27,93 +32,114 @@ USERS = {
 }
 
 # ── Official maps ─────────────────────────────────────────────────────────────
+GAMEMODES = {
+    'Casual':            'game_alias casual',
+    'Competitive':       'game_alias competitive',
+    'Wingman':           'game_alias scrimcomp2v2',
+    'Weapons Expert':    'game_alias scrimcomp5v5',
+    'Deathmatch':        'game_alias deathmatch',
+    'Arms Race':         'game_type 1; game_mode 0; sv_skirmish_id 10',
+    'Demolition':        'game_type 1; game_mode 1; sv_skirmish_id 11',
+    'Flying Scoutsman':  'game_type 0; game_mode 0; sv_skirmish_id 3',
+    'Retakes':           'game_type 0; game_mode 0; sv_skirmish_id 12',
+    'Guardian':          'game_alias cooperative',
+}
+
+# (mapname, type)  type used for filtering
 MAPS = {
-    'Ancient':      'de_ancient',
-    'Ancient Night':'de_ancient_night',
-    'Anubis':       'de_anubis',
-    'Dust 2':       'de_dust2',
-    'Inferno':      'de_inferno',
-    'Italy':        'cs_italy',
-    'Mirage':       'de_mirage',
-    'Nuke':         'de_nuke',
-    'Office':       'cs_office',
-    'Overpass':     'de_overpass',
-    'Train':        'de_train',
-    'Vertigo':      'de_vertigo',
-    'Baggage':      'ar_baggage',
-    'Shoots':       'ar_shoots',
-    'Shoots Night': 'ar_shoots_night',
+    'Ancient':       ('de_ancient',       'de'),
+    'Ancient Night': ('de_ancient_night', 'de'),
+    'Anubis':        ('de_anubis',        'de'),
+    'Dust 2':        ('de_dust2',         'de'),
+    'Inferno':       ('de_inferno',       'de'),
+    'Italy':         ('cs_italy',         'cs'),
+    'Mirage':        ('de_mirage',        'de'),
+    'Nuke':          ('de_nuke',          'de'),
+    'Office':        ('cs_office',        'cs'),
+    'Overpass':      ('de_overpass',      'de'),
+    'Train':         ('de_train',         'de'),
+    'Vertigo':       ('de_vertigo',       'de'),
+    'Baggage':       ('ar_baggage',       'ar'),
+    'Shoots':        ('ar_shoots',        'ar'),
+    'Shoots Night':  ('ar_shoots_night',  'ar'),
+}
+
+MODE_MAPS = {
+    'Casual':           {'Ancient','Ancient Night','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Competitive':      {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Wingman':          {'Inferno','Nuke','Overpass','Vertigo'},
+    'Weapons Expert':   {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Deathmatch':       {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Arms Race':        {'Baggage','Shoots','Shoots Night'},
+    'Demolition':       {'Baggage','Shoots','Shoots Night'},
+    'Flying Scoutsman': {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
+    'Retakes':          {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
+    'Guardian':         {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
 }
 
 # ── Workshop maps  (gamemode_alias, workshop_id) ──────────────────────────────
 WORKSHOP_MAPS = {
     'Bomb': {
-        'Foroglio':    ('casual', 3132854332),
-        'Assembly':    ('casual', 3071005299),
-        'Black Gold':  ('casual', 3075012302),
-        'Lake':        ('casual', 3070563536),
-        'Bank':        ('casual', 3070581293),
-        'Bikini Bottom':('casual',3204870970),
-        'Plane':       ('casual', 3217247541),
-        'St Marc':     ('casual', 3070562370),
-        'Sugarcane':   ('casual', 3070579459),
-        'Astra':       ('casual', 3083296922),
-        'Maginot':     ('casual', 3195399109),
-        'Palais':      ('casual', 3257582863),
-        'Omaha Beach': ('casual', 3148007939),
-        'Train':       ('casual', 3070284539),
-        'Attic':       ('casual', 3305148449),
-        'The Metro':   ('casual', 3326236589),
-        'Cache':       ('casual', 3328271311),
-        'Inca':        ('casual', 3325387224),
-        'Sparity':     ('casual', 3317923634),
-        'Basalt':      ('casual', 3329258290),
-        'Zoo':         ('casual', 3101352333),
-        'Tuscan':      ('casual', 3267671493),
-        'Rainfall':    ('casual', 3265650949),
-        'Lighthouse':  ('casual', 3342529755),
-        'Refuse':      ('casual', 3294609675),
+        'Foroglio':    ('Casual', 3132854332),
+        'Assembly':    ('Casual', 3071005299),
+        'Black Gold':  ('Casual', 3075012302),
+        'Lake':        ('Casual', 3070563536),
+        'Bank':        ('Casual', 3070581293),
+        'Bikini Bottom':('Casual',3204870970),
+        'Plane':       ('Casual', 3217247541),
+        'St Marc':     ('Casual', 3070562370),
+        'Sugarcane':   ('Casual', 3070579459),
+        'Astra':       ('Casual', 3083296922),
+        'Maginot':     ('Casual', 3195399109),
+        'Palais':      ('Casual', 3257582863),
+        'Omaha Beach': ('Casual', 3148007939),
+        'Train':       ('Casual', 3070284539),
+        'Attic':       ('Casual', 3305148449),
+        'The Metro':   ('Casual', 3326236589),
+        'Cache':       ('Casual', 3328271311),
+        'Inca':        ('Casual', 3325387224),
+        'Sparity':     ('Casual', 3317923634),
+        'Basalt':      ('Casual', 3329258290),
+        'Zoo':         ('Casual', 3101352333),
+        'Tuscan':      ('Casual', 3267671493),
+        'Rainfall':    ('Casual', 3265650949),
+        'Lighthouse':  ('Casual', 3342529755),
+        'Refuse':      ('Casual', 3294609675),
     },
     'Hostage': {
-        'Rush':        ('casual', 3077752384),
-        'Safehouse':   ('casual', 3070550406),
-        'Minecraft':   ('casual', 3095875614),
-        'Dam':         ('casual', 3072481684),
-        'Assault':     ('casual', 3079872050),
-        'Rainbow 6':   ('casual', 3115452448),
-        'Militia':     ('casual', 3202169771),
-        'HiJack':      ('casual', 3310206718),
-        'Climb':       ('casual', 3319649237),
-        'Agency':      ('casual', 3339983232),
-        'Paris 2024':  ('casual', 3344069159),
+        'Rush':        ('Casual', 3077752384),
+        'Safehouse':   ('Casual', 3070550406),
+        'Minecraft':   ('Casual', 3095875614),
+        'Dam':         ('Casual', 3072481684),
+        'Assault':     ('Casual', 3079872050),
+        'Rainbow 6':   ('Casual', 3115452448),
+        'Militia':     ('Casual', 3202169771),
+        'HiJack':      ('Casual', 3310206718),
+        'Climb':       ('Casual', 3319649237),
+        'Agency':      ('Casual', 3339983232),
+        'Paris 2024':  ('Casual', 3344069159),
     },
     'Arms Race': {
-        'Lunacy':      ('armsrace', 3070560242),
-        'Monastery':   ('armsrace', 3070547153),
-        'St Marc':     ('armsrace', 3070562370),
-        'Stairs':      ('armsrace', 3264733671),
-        'Churches':    ('armsrace', 3070291913),
-        'Pool Day':    ('armsrace', 3070923343),
-        'Speedball':   ('armsrace', 3111527644),
+        'Lunacy':      ('Arms Race', 3070560242),
+        'Monastery':   ('Arms Race', 3070547153),
+        'St Marc':     ('Arms Race', 3070562370),
+        'Stairs':      ('Arms Race', 3264733671),
+        'Churches':    ('Arms Race', 3070291913),
+        'Pool Day':    ('Arms Race', 3070923343),
+        'Speedball':   ('Arms Race', 3111527644),
     },
     'Deathmatch': {
-        'Omaha Beach': ('deathmatch', 3148007939),
-        'Astra':       ('deathmatch', 3083296922),
-        'Halo':        ('deathmatch', 3255907412),
-        'Breadwindow': ('deathmatch', 3371417956),
-        'Eternal':     ('deathmatch', 3094002407),
-        'Mansion':     ('deathmatch', 3080114822),
-        'AI Reality':  ('deathmatch', 3105649124),
-        'Lighthouse':  ('deathmatch', 3342529755),
-        'Dolls House': ('deathmatch', 3073384529),
-        'Lake':        ('deathmatch', 3070563536),
+        'Omaha Beach': ('Deathmatch', 3148007939),
+        'Astra':       ('Deathmatch', 3083296922),
+        'Halo':        ('Deathmatch', 3255907412),
+        'Breadwindow': ('Deathmatch', 3371417956),
+        'Eternal':     ('Deathmatch', 3094002407),
+        'Mansion':     ('Deathmatch', 3080114822),
+        'AI Reality':  ('Deathmatch', 3105649124),
+        'Lighthouse':  ('Deathmatch', 3342529755),
+        'Dolls House': ('Deathmatch', 3073384529),
+        'Lake':        ('Deathmatch', 3070563536),
     },
-}
-
-GAMEMODE_CMDS = {
-    'casual':     'game_alias casual',
-    'armsrace':   'game_type 1; game_mode 0; sv_skirmish_id 10',
-    'deathmatch': 'game_alias deathmatch',
 }
 
 # ── RCON helper ───────────────────────────────────────────────────────────────
@@ -124,6 +150,15 @@ def rcon_command(command):
             return {'ok': True, 'result': client.run(command)}
     except Exception as e:
         return {'ok': False, 'error': str(e)}
+
+def rcon_gamemode(gamemode):
+    cmd = GAMEMODES.get(gamemode)
+    if not cmd:
+        return
+    for part in cmd.split(';'):
+        part = part.strip()
+        if part:
+            rcon_command(part)
 
 def parse_status(status_output):
     players = []
@@ -230,18 +265,35 @@ def server_status():
 @app.route('/api/maps')
 @login_required
 def get_maps():
-    return jsonify({'maps': list(MAPS.keys()),
-                    'workshop': {k: list(v.keys()) for k, v in WORKSHOP_MAPS.items()}})
+    return jsonify({
+        'maps': {name: mtype for name, (cmd, mtype) in MAPS.items()},
+        'gamemodes': list(GAMEMODES.keys()),
+        'mode_maps': {mode: list(maps) for mode, maps in MODE_MAPS.items()},
+        'workshop': {k: list(v.keys()) for k, v in WORKSHOP_MAPS.items()}
+    })
 
 @app.route('/api/map', methods=['POST'])
 @login_required
 def change_map():
     data = request.json or {}
     name = data.get('map')
+    gamemode = data.get('gamemode', 'Casual')
     if name not in MAPS:
         return jsonify({'error': 'Unknown map'}), 400
-    rcon_command('game_alias casual')  # Ensure we're in a gamemode before changing map
-    r = rcon_command(f'map {MAPS[name]}')
+    rcon_gamemode(gamemode)
+    r = rcon_command(f'map {MAPS[name][0]}')
+    return jsonify(r)
+
+@app.route('/api/community_map', methods=['POST'])
+@login_required
+def community_map():
+    data = request.json or {}
+    name = data.get('map', '').strip()
+    gamemode = data.get('gamemode', 'Casual')
+    if not name or not re.match(r'^[a-zA-Z0-9_]+$', name):
+        return jsonify({'ok': False, 'error': 'Invalid map name'}), 400
+    rcon_gamemode(gamemode)
+    r = rcon_command(f'map {name}')
     return jsonify(r)
 
 @app.route('/api/workshop', methods=['POST'])
@@ -254,8 +306,7 @@ def workshop_map():
         return jsonify({'error': 'Unknown workshop map'}), 400
 
     gamemode, map_id = WORKSHOP_MAPS[category][name]
-    if gamemode in GAMEMODE_CMDS:
-        rcon_command(GAMEMODE_CMDS[gamemode])
+    rcon_gamemode(gamemode)
     r = rcon_command(f'host_workshop_map {map_id}')
     return jsonify(r)
 
