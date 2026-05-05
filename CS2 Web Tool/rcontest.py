@@ -2,7 +2,7 @@ from rcon.source import Client
 
 RCON_HOST = '192.168.1.41'
 RCON_PORT = 27015
-RCON_PASSWORD = 'asdf1234password'
+RCON_PASSWORD = ''
 
 def rcon_command(command):
     try:

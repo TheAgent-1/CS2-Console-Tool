@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change-this-secret-key')
 
 # ── Config (set via environment variables) ──────────────────────────────────
-#TEMP LOAD FROM .env. COMMENT OUT FOR PRODUCTION, SHOULD BE SET IN ENVIRONMENT
+# LOAD FROM .env     # COMMENT OUT FOR PRODUCTION, SHOULD BE SET IN ENVIRONMENT
 #from dotenv import load_dotenv
 #load_dotenv()
 
@@ -25,10 +25,10 @@ WEB_PORT       = int(os.environ.get('WEB_PORT', 5000))
 
 # ── Users ────────────────────────────────────────────────────────────────────
 USERS = {
-    'Jacob':   os.environ.get('PASS_JACOB',   'Gh0s7!'),
-    'Chris':   os.environ.get('PASS_CHRIS',   'Chris'),
-    'Jonno':   os.environ.get('PASS_JONNO',   'Jonno13'),
-    'Nuclear': os.environ.get('PASS_NUCLEAR', 'option'),
+    'Jacob':   os.environ.get('PASS_JACOB',   ''),
+    'Chris':   os.environ.get('PASS_CHRIS',   ''),
+    'Jonno':   os.environ.get('PASS_JONNO',   ''),
+    'Aaron':   os.environ.get('PASS_AARON',   ''),
 }
 
 # ── Official maps ─────────────────────────────────────────────────────────────
@@ -62,18 +62,20 @@ MAPS = {
     'Baggage':       ('ar_baggage',       'ar'),
     'Shoots':        ('ar_shoots',        'ar'),
     'Shoots Night':  ('ar_shoots_night',  'ar'),
+    'Cache':         ('de_cache',         'de'),
 }
 
+# Which maps are available for each gamemode (for filtering in UI)
 MODE_MAPS = {
-    'Casual':           {'Ancient','Ancient Night','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
-    'Competitive':      {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Casual':           {'Ancient','Ancient Night','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo', 'Cache'},
+    'Competitive':      {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo', 'Cache'},
     'Wingman':          {'Inferno','Nuke','Overpass','Vertigo'},
     'Weapons Expert':   {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
-    'Deathmatch':       {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo'},
+    'Deathmatch':       {'Ancient','Anubis','Dust 2','Inferno','Italy','Mirage','Nuke','Office','Overpass','Train','Vertigo', 'Cache'},
     'Arms Race':        {'Baggage','Shoots','Shoots Night'},
     'Demolition':       {'Baggage','Shoots','Shoots Night'},
     'Flying Scoutsman': {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
-    'Retakes':          {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
+    'Retakes':          {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo', 'Cache'},
     'Guardian':         {'Ancient','Anubis','Dust 2','Inferno','Mirage','Nuke','Overpass','Train','Vertigo'},
 }
 
@@ -285,7 +287,7 @@ def server_status():
 @login_required
 def get_maps():
     return jsonify({
-        'maps': {name: mtype for name, (cmd, mtype) in MAPS.items()},
+        'maps': {name: cmd for name, (cmd, mtype) in MAPS.items()},
         'gamemodes': list(GAMEMODES.keys()),
         'mode_maps': {mode: list(maps) for mode, maps in MODE_MAPS.items()},
         'workshop': {k: list(v.keys()) for k, v in WORKSHOP_MAPS.items()}
