@@ -31,6 +31,8 @@ USERS = {
     'Aaron':   os.environ.get('PASS_AARON',   ''),
 }
 
+# Only allow certain users to execute arbitrary RCON commands (via /api/rcon/execute)
+RCON_ALLOWED_USERS = {'Jacob', 'Aaron'} # Note: Im not about to give Jonno or Chris full RCON access, sorry lads, safety over convenience
 # ── Official maps ─────────────────────────────────────────────────────────────
 GAMEMODES = {
     'Casual':            'game_alias casual',
@@ -350,6 +352,17 @@ def raw_rcon():
     ALLOWED = {'bot_add_ct', 'bot_add_t', 'bot_kick', 'bot_zombie 1', 'bot_zombie 0'}
     if command not in ALLOWED:
         return jsonify({'ok': False, 'error': 'Command not permitted'}), 403
+    return jsonify(rcon_command(command))
+
+@app.route('/api/rcon/execute', methods=['POST'])
+@login_required
+def rcon_execute():
+    if session.get('user') not in RCON_ALLOWED_USERS:
+        return jsonify({'ok': False, 'error': 'Not authorised'}), 403
+    data = request.json or {}
+    command = data.get('command', '').strip()
+    if not command:
+        return jsonify({'ok': False, 'error': 'No command provided'}), 400
     return jsonify(rcon_command(command))
 
 @app.route('/api/server/start', methods=['POST'])

@@ -691,6 +691,7 @@
     <div class="nav">
       <button class="nav-tab active" data-tab="maps" onclick="switchTab('maps',this)">🗺 Maps</button>
       <button class="nav-tab" data-tab="workshop" onclick="switchTab('workshop',this)">🔧 Workshop</button>
+      <button class="nav-tab" data-tab="console" onclick="switchTab('console',this)">⌨️ Console</button>
       <button class="nav-tab" data-tab="players" onclick="switchTab('players',this)">👥 Players</button>
       <button class="nav-tab" data-tab="server" onclick="switchTab('server',this)">⚙️ Server</button>
     </div>
@@ -728,6 +729,29 @@
         <div class="section-title">Workshop Maps</div>
         <div class="sub-tabs" id="ws-tabs"></div>
         <div id="ws-categories"></div>
+      </div>
+
+      <!-- Console -->
+       <div class="section" id="tab-console">
+        <div class="section-title">RCON Console</div>
+          <div style="display:flex;gap:10px;margin-bottom:16px;">
+            <input type="text" id="rcon-input" placeholder="e.g. status" style="flex:1;" onkeydown="if(event.key==='Enter') sendRcon()">
+            <button class="btn btn-primary" style="width:auto;padding:12px 24px;" onclick="sendRcon()">Run</button>
+          </div>
+        <div id="rcon-output" style="
+          background:var(--bg);
+          border:1px solid var(--border);
+          border-radius:var(--radius);
+          padding:16px;
+          font-family:monospace;
+          font-size:13px;
+          color:var(--text);
+          min-height:300px;
+          max-height:600px;
+          overflow-y:auto;
+          white-space:pre-wrap;
+          word-break:break-all;">
+        </div>
       </div>
 
       <!-- Players -->
@@ -988,6 +1012,34 @@
         srvSt.textContent = 'Server is Stopped';
         srvMap.textContent = '';
       }
+    }
+
+    // ── Console ───────────────────────────────────────────────────────────────
+    async function sendRcon() {
+      const input  = document.getElementById('rcon-input');
+      const output = document.getElementById('rcon-output');
+      const command = input.value.trim();
+      if (!command) return;
+
+      const timestamp = new Date().toLocaleTimeString();
+      output.textContent += `\n[${timestamp}] > ${command}\n`;
+
+      try {
+        const res  = await fetch('/api/rcon/execute', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({command})
+        });
+        const data = await res.json();
+        output.textContent += data.ok ? data.result : `Error: ${data.error}`;
+      } catch(e) {
+        output.textContent += `Request failed: ${e.message}`;
+      }
+
+      output.textContent += '\n';
+      output.scrollTop = output.scrollHeight;
+      input.value = '';
     }
 
     // ── Players ────────────────────────────────────────────────────────────────
