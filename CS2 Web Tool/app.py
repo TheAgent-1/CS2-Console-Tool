@@ -340,8 +340,13 @@ def kick_player():
     userid = data.get('userid', '').strip()
     if not userid or not userid.isdigit():
         return jsonify({'error': 'Invalid userid'}), 400
-    rcon_command('sv_kick_ban_duration 3')
-    r = rcon_command(f'kickid {userid}')
+    # ban_duration is in minutes (floats accepted, e.g. 0.5 = 30s). Defaults to 3.
+    try:
+        ban_duration = float(data.get('ban_duration', 3))
+        ban_duration = max(0, round(ban_duration, 2))
+    except (TypeError, ValueError):
+        ban_duration = 3
+    r = rcon_command(f'banid {ban_duration} {userid}')
     return jsonify(r)
 
 @app.route('/api/rcon', methods=['POST'])

@@ -1134,18 +1134,76 @@
       );
     }
 
+    let randomKickEnabled = false;
+
+    // ── Random kick keybind (Shift+K) ─────────────────────────────────────────
+    // No UI element — toggle is intentionally hidden. Active state shown as a
+    // red dot on the Players nav tab so you know the mode is live at a glance.
+    document.addEventListener('keydown', e => {
+      if (e.shiftKey && e.key === 'K' && !e.ctrlKey && !e.altKey) {
+        // Don't fire while typing in an input/textarea
+        if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+        randomKickEnabled = !randomKickEnabled;
+        updateRandomKickIndicator();
+        toast(randomKickEnabled ? '🎲 Random kick ON (Shift+K to disable)' : '🎲 Random kick OFF', randomKickEnabled ? 'error' : '');
+      }
+    });
+
+    function updateRandomKickIndicator() {
+      const tab = document.querySelector('[data-tab="players"]');
+      if (!tab) return;
+      let dot = tab.querySelector('.rk-dot');
+      if (randomKickEnabled) {
+        if (!dot) {
+          dot = document.createElement('span');
+          dot.className = 'rk-dot';
+          dot.style.cssText = 'display:inline-block;width:6px;height:6px;border-radius:50%;background:#e84040;margin-left:5px;vertical-align:middle;';
+          tab.appendChild(dot);
+        }
+      } else {
+        if (dot) dot.remove();
+      }
+    }
+
+    /** Returns a random ban duration in minutes (0.5–10) and a display string. */
+    function randomKickDuration() {
+      const secs = Math.floor(Math.random() * (600 - 30 + 1)) + 30; // 30–600 s
+      const mins = +(secs / 60).toFixed(2);
+      const display = secs < 60
+        ? `${secs} second${secs !== 1 ? 's' : ''}`
+        : secs % 60 === 0
+          ? `${secs / 60} minute${secs / 60 !== 1 ? 's' : ''}`
+          : `${Math.floor(secs / 60)}m ${secs % 60}s`;
+      return { mins, display };
+    }
+
     function confirmKick(userid, name) {
-      confirmPending = async () => {
-        const res = await fetch('/api/kick', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userid })
-        });
-        const data = await res.json();
-        if (data.ok) { toast(`${name} kicked`, 'success'); await refreshPlayers(); }
-        else toast('Error: ' + (data.error || 'Unknown error'), 'error');
-      };
-      showConfirm('Kick Player', `Kick "${name}" from the server?\n\nThey will receive a 3-minute ban.`, 'Kick', '#e84040', '#fff');
+      if (randomKickEnabled) {
+        const { mins, display } = randomKickDuration();
+        confirmPending = async () => {
+          const res = await fetch('/api/kick', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userid, ban_duration: mins })
+          });
+          const data = await res.json();
+          if (data.ok) { toast(`${name} kicked (${display} ban)`, 'success'); await refreshPlayers(); }
+          else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+        };
+        showConfirm('Kick Player', `Kick "${name}" from the server?\n\nThey will receive a random ban of ${display}.`, 'Kick', '#e84040', '#fff');
+      } else {
+        confirmPending = async () => {
+          const res = await fetch('/api/kick', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userid })
+          });
+          const data = await res.json();
+          if (data.ok) { toast(`${name} kicked`, 'success'); await refreshPlayers(); }
+          else toast('Error: ' + (data.error || 'Unknown error'), 'error');
+        };
+        showConfirm('Kick Player', `Kick "${name}" from the server?\n\nThey will receive a 3-minute ban.`, 'Kick', '#e84040', '#fff');
+      }
     }
 
     function confirmAction(action) {
